@@ -14,5 +14,6 @@
     </head>
     <body>
         <h1>Hello World! Current time is: <%= new Date() %></h1>
+        <h2>Test version: 7</h2>
     </body>
 </html>
