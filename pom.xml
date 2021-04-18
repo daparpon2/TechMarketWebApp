@@ -42,21 +42,9 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.3</version>
                 <configuration>
+                    <warName>TechMarketWebApp</warName>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>war-exploded</id>
-                        <configuration>
-                            <webappDirectory>target/deploy</webappDirectory>
-                            <archiveClasses>true</archiveClasses>
-                        </configuration>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>exploded</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
