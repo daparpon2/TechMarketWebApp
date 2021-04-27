@@ -1,24 +1,11 @@
 /* GENERAL STYLE */
 label.error {
     color: red;
+    margin-top: 1vh;
 }
 
 input:invalid {
     border-color: red;
-}
-
-.nav-link {
-    font-weight: bold;
-    margin-right: 2vw;
-}
-
-.nav-link:hover {
-    color: var(--secondary);
-}
-
-.nav-link.active, .nav-link.active:hover {
-    color: white;
-    background-color: var(--secondary);
 }
 
 .obligatorio {
@@ -39,12 +26,21 @@ input:invalid {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(89, 18, 89)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
 
-#social-icons img {
-    width: 2vw;
+#menu .nav-link {
+    font-weight: bold;
+    margin-right: 2vw;
+}
+
+#menu .nav-link:hover {
+    color: var(--secondary);
+}
+
+#menu .nav-link.active, #menu .nav-link.active:hover {
+    color: white;
+    background-color: var(--secondary);
 }
 
 #home-body {
-    height: 75vh;
     background-image: url('../resources/images/background.jpg');
     background-repeat: no-repeat;
     background-size: cover;
@@ -56,12 +52,78 @@ input:invalid {
 }
 
 /* MEDIA QUERIES */
-/*
-body, h6 {
-    font-size: 1vw;
+/* XS SIZE */
+@media (max-width : 576px) {
+    body, h6, .btn, .form-group {
+        font-size: 4vw;
+    }
+
+    h5 {
+        font-size: 6vw;
+    }
+
+    #social-icons img {
+        width: 7vw;
+    }
+    
+    #home-body {
+        height: 75vh;
+    }
 }
 
-h5 {
-    font-size: 1.3vw;
+/* SM SIZE */
+@media (min-width : 576px) and (max-width : 768px) {
+    body, h6, .btn, .form-group {
+        font-size: 2vw;
+    }
+
+    h5 {
+        font-size: 3vw;
+    }
+
+    #social-icons img {
+        width: 3.5vw;
+    }
+    
+    #home-body {
+        height: 100%;
+    }
 }
-*/
+
+/* MD SIZE */
+@media (min-width : 768px) and (max-width : 992px) {
+    body, h6, .btn, .form-group {
+        font-size: 1.75vw;
+    }
+
+    h5 {
+        font-size: 2.5vw;
+    }
+
+    #social-icons img {
+        width: 4vw;
+    }
+    
+    #home-body {
+        height: 100vh;
+    }
+}
+
+/* TAMAÑO LG - XL */
+@media (min-width : 992px) {
+    body, h6, .btn, .form-group {
+        font-size: 1vw;
+    }
+
+    h5 {
+        font-size: 1.3vw;
+    }
+
+    #social-icons img {
+        width: 2vw;
+    }
+    
+    #home-body {
+        height: 75vh;
+    }
+}
