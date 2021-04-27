@@ -4,7 +4,7 @@
 
     <groupId>es.conselleria.daparpon</groupId>
     <artifactId>TechMarketWebApp</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.1</version>
     <packaging>war</packaging>
 
     <name>TechMarketWebApp</name>
@@ -21,6 +21,17 @@
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.23</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <version>1.2.6</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -42,7 +53,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.3</version>
                 <configuration>
-                    <warName>TechMarketWebApp</warName>
+                    <warName>ROOT</warName>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>

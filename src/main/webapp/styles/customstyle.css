@@ -1,0 +1,67 @@
+/* GENERAL STYLE */
+label.error {
+    color: red;
+}
+
+input:invalid {
+    border-color: red;
+}
+
+.nav-link {
+    font-weight: bold;
+    margin-right: 2vw;
+}
+
+.nav-link:hover {
+    color: var(--secondary);
+}
+
+.nav-link.active, .nav-link.active:hover {
+    color: white;
+    background-color: var(--secondary);
+}
+
+.obligatorio {
+    font-size: 120%;
+    color: red;
+}
+
+.copyleft {
+    display: inline-block;
+    transform: rotate(180deg);
+}
+
+#menu-button {
+    border: solid var(--primary);
+}
+
+#menu-button span {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(89, 18, 89)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+#social-icons img {
+    width: 2vw;
+}
+
+#home-body {
+    height: 75vh;
+    background-image: url('../resources/images/background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#home-body .card {
+    margin-top: 3vh;
+    background-color: rgba(255,255,255,0.9);
+}
+
+/* MEDIA QUERIES */
+/*
+body, h6 {
+    font-size: 1vw;
+}
+
+h5 {
+    font-size: 1.3vw;
+}
+*/
