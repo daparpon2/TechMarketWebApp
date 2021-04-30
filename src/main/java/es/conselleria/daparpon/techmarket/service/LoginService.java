@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.conselleria.daparpon.techmarket.controller;
+package es.conselleria.daparpon.techmarket.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Yo mismo
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/login"})
-public class LoginController extends HttpServlet {
+@WebServlet(name = "LoginService", urlPatterns = {"/login"})
+public class LoginService extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.

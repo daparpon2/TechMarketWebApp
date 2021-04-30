@@ -1,8 +1,11 @@
-package es.conselleria.daparpon.techmarket.controller;
+package es.conselleria.daparpon.techmarket.utils;
 
-import es.conselleria.daparpon.techmarket.dao.DBConnection;
+import es.conselleria.daparpon.techmarket.utils.DBConnection;
+import es.conselleria.daparpon.techmarket.utils.DBConnection;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,24 +30,28 @@ public class TestDB extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DBConnection conn = new DBConnection();
-        //UsuarioDao userdao = new UsuarioDao(conn);
-        //Usuario user = userdao.login("admin", "admin");
-        //System.out.println(user);
+        String line;
+        try {
+            Connection conn = new DBConnection().getConnection();
+            line = conn.toString();
+            conn.close();
+        } catch (SQLException ex) {
+            line = ex.getMessage();
+        }
+        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>DB Connection Test</title>");            
+            out.println("<title>DB Connection Test</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Database Connection Result</h1>");
-            out.println(conn.getConnection());
+            out.println(line);
             out.println("</body>");
             out.println("</html>");
         }
-        conn.disconnect();
     }
 
 }
