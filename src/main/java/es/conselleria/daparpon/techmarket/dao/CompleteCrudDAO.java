@@ -8,7 +8,7 @@ import java.util.Collection;
  * @param <T> entity to define
  * @author Cesardl
  */
-public interface CompleteCrudDAO<T> extends SimpleCrudDAO<T> {
+public interface CompleteCrudDAO<T, E> extends SimpleCrudDAO<T, E> {
 
     /**
      * Save an element.
@@ -25,8 +25,6 @@ public interface CompleteCrudDAO<T> extends SimpleCrudDAO<T> {
      * @return true if was updated
      */
     boolean update(T t);
-
-    Collection<T> buscarNombre(String description);
 
     /**
      * Deleting an element.

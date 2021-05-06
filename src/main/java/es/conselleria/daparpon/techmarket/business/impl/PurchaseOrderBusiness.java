@@ -15,7 +15,7 @@ import java.util.Date;
  *
  * @author Cesardl
  */
-public class PurchaseOrderBusiness extends TemplateBusiness<PurchaseOrder> {
+public class PurchaseOrderBusiness extends TemplateBusiness<PurchaseOrder, Integer> {
 
     private static final Logger LOG = LoggerFactory.getLogger(PurchaseOrderBusiness.class);
 
@@ -24,7 +24,6 @@ public class PurchaseOrderBusiness extends TemplateBusiness<PurchaseOrder> {
     //private constructor to avoid client applications to use constructor
     private PurchaseOrderBusiness() {
         setDao(new PurchaseOrderDAO());
-        setIdentifierSize(8);
     }
 
     public static PurchaseOrderBusiness getInstance() {
@@ -35,28 +34,6 @@ public class PurchaseOrderBusiness extends TemplateBusiness<PurchaseOrder> {
     public Collection<PurchaseOrder> all() {
         LOG.info("Getting all purchase orders");
         return dao.getAll();
-    }
-
-    @Override
-    public boolean saveOrUpdate(final PurchaseOrder purchaseOrder) {
-        Date date = new Date();
-        purchaseOrder.setSalesDate(date);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_MONTH, 15);
-        purchaseOrder.setShippingDate(calendar.getTime());
-
-        if (purchaseOrder.getOrderNum() == null) {
-            LOG.info("Adding purchase order to customer {}", purchaseOrder.getCustomer().getName());
-
-            int identifier = generateIdentifier();
-            purchaseOrder.setOrderNum(identifier);
-            return dao.save(purchaseOrder);
-        } else {
-            LOG.info("Updating purchase order to customer {}", purchaseOrder.getCustomer().getName());
-            return dao.update(purchaseOrder);
-        }
     }
 
     @Override
@@ -71,5 +48,25 @@ public class PurchaseOrderBusiness extends TemplateBusiness<PurchaseOrder> {
         PurchaseOrder product = new PurchaseOrder();
         product.setOrderNum(identifier);
         return dao.delete(product);
+    }
+
+    @Override
+    public boolean save(PurchaseOrder purchaseOrder) {
+        Date date = new Date();
+        purchaseOrder.setSalesDate(date);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, 15);
+        purchaseOrder.setShippingDate(calendar.getTime());
+
+        LOG.info("Adding purchase order to customer {}", purchaseOrder.getCustomer().getName());
+        return dao.save(purchaseOrder);
+    }
+
+    @Override
+    public boolean update(PurchaseOrder purchaseOrder) {
+        LOG.info("Updating purchase order to customer {}", purchaseOrder.getCustomer().getName());
+        return dao.update(purchaseOrder);
     }
 }

@@ -12,12 +12,12 @@
 
 <div class="container-fluid" id="home-body">
     <div class="row">
-        <div class="col-12 col-md-6">
+        <div class="col-12 order-2 col-md-6 order-md-1">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title text-center text-primary font-weight-bold d-none d-md-block"">¡Bienvenido/a a Tech Market!</h5>
+                    <h5 class="card-title text-center text-primary font-weight-bold">¡Bienvenido/a a Tech Market!</h5>
                     <h6 class="card-title text-center text-primary font-weight-bold">Especialistas en productos tecnológicos</h6>
-                    <div class="card-text text-justify d-none d-md-block">
+                    <div class="card-text text-justify">
                         <p>
                             En nuestra tienda encontrarás todos los productos tecnológicos que necesitas o que siempre has deseado.
                             Desde equipos informáticos a componentes accesorios, e incluso el mejor software como suites ofimáticas
@@ -40,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-md-4 offset-md-2">
+        <div class="col-12 order-1 col-md-4 offset-md-2 order-md-2">
             <div class="card">
                 <div class="card-body">
                     <h6 class="card-title text-center text-primary font-weight-bold">¿Eres cliente de nuestra empresa? ¿O quizá trabajas con nosotros?</h6>
@@ -49,13 +49,13 @@
                         <form id="loginform">
                             <div class="form-group">
                                 <label for="email">Correo electrónico<span class="obligatorio">*</span></label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su correo"/>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Ingresa tu correo"/>
                             </div>
                             <div class="form-group">
                                 <label for="pwd">Contraseña<span class="obligatorio">*</span></label>
-                                <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Ingrese su contraseña"/>
+                                <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Ingresa tu contraseña"/>
                                 <small class="form-text text-muted"><span class="obligatorio">*</span>: Obligatorio</small>
-                                <small class="form-text"><a class="text-primary" href="">¿Ha olvidado su contraseña?</a></small>
+                                <small class="form-text"><a class="text-primary" href="">¿Has olvidado tu contraseña?</a></small>
                             </div>
                             <div>
                                 <button type="submit" class="btn btn-outline-primary btn-block d-none d-lg-block">Iniciar sesión</button>
@@ -68,7 +68,6 @@
         </div>
     </div>
 </div>
-
 <%@include file="shards/footer.jsp" %>
 <%@include file="shards/libscripts.html" %>
 <script src="scripts/index.js"></script>

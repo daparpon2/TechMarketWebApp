@@ -1,7 +1,5 @@
 package es.conselleria.daparpon.techmarket.utils;
 
-import es.conselleria.daparpon.techmarket.utils.DBConnection;
-import es.conselleria.daparpon.techmarket.utils.DBConnection;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;

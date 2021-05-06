@@ -1,4 +1,9 @@
 /* GENERAL STYLE */
+footer {
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
 label.error {
     color: red;
     margin-top: 1vh;
@@ -44,6 +49,7 @@ input:invalid {
     background-image: url('../resources/images/background.jpg');
     background-repeat: no-repeat;
     background-size: cover;
+    height: 100%;
 }
 
 #home-body .card {
@@ -65,10 +71,6 @@ input:invalid {
     #social-icons img {
         width: 7vw;
     }
-    
-    #home-body {
-        height: 100%;
-    }
 }
 
 /* SM SIZE */
@@ -83,10 +85,6 @@ input:invalid {
 
     #social-icons img {
         width: 3.5vw;
-    }
-    
-    #home-body {
-        height: 100%;
     }
 }
 
@@ -104,8 +102,8 @@ input:invalid {
         width: 4vw;
     }
     
-    #home-body {
-        height: 100vh;
+    #home-body .row:last-child .card {
+        margin-bottom: 15vh;
     }
 }
 
@@ -123,7 +121,7 @@ input:invalid {
         width: 2vw;
     }
     
-    #home-body {
-        height: 75vh;
+    #home-body .card:last-child {
+        margin-bottom: 15vh;
     }
 }

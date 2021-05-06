@@ -1,3 +1,6 @@
+# DB Connection parameters
+src/main/java/es/conselleria/daparpon/techmarket/utils/DBParams.java
+
 # Generated target directory
 target/*
 

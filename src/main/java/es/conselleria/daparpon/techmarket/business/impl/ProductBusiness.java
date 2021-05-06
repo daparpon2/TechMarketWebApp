@@ -21,7 +21,7 @@ import java.util.Collection;
  * @author Eliana Zapata
  * @since 2009
  */
-public class ProductBusiness extends TemplateBusiness<Product> {
+public class ProductBusiness extends TemplateBusiness<Product, Integer> {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProductBusiness.class);
 
@@ -35,7 +35,6 @@ public class ProductBusiness extends TemplateBusiness<Product> {
         setDao(new ProductDAO());
         productCodeDAO = new ProductCodeDAO();
         manufacturerDAO = new ManufacturerDAO();
-        setIdentifierSize(6);
     }
 
     public static ProductBusiness getInstance() {
@@ -59,30 +58,14 @@ public class ProductBusiness extends TemplateBusiness<Product> {
     }
 
     @Override
-    public boolean saveOrUpdate(final Product product) {
-        product.setAvailable(product.getQuantityOnHand() != 0);
-
-        if (product.getProductId() == null) {
-            LOG.info("Adding product: {}", product);
-
-            int identifier = generateIdentifier();
-            product.setProductId(identifier);
-            return dao.save(product);
-        } else {
-            LOG.info("Updating product: {}", product);
-            return dao.update(product);
-        }
-    }
-
-    @Override
     public Product findById(final Integer identifier) {
         LOG.info("Searching product by identifier: {}", identifier);
         return dao.findById(identifier);
     }
 
-    public Collection<Product> buscarNombre(String str) {
+    public Collection<Product> findName(String str) {
         LOG.info("Searching product by description: {}", str);
-        return dao.buscarNombre(str);
+        return ((ProductDAO) dao).findName(str);
     }
 
     @Override
@@ -91,5 +74,17 @@ public class ProductBusiness extends TemplateBusiness<Product> {
         Product product = new Product();
         product.setProductId(identifier);
         return dao.delete(product);
+    }
+
+    @Override
+    public boolean save(Product product) {
+        LOG.info("Adding product: {}", product);
+        return dao.save(product);
+    }
+
+    @Override
+    public boolean update(Product product) {
+        LOG.info("Updating product: {}", product);
+        return dao.update(product);
     }
 }

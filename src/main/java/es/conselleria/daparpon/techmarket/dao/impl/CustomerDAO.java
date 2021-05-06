@@ -21,7 +21,7 @@ import java.util.Collections;
 /**
  * @author Cesardl
  */
-public class CustomerDAO implements CompleteCrudDAO<Customer> {
+public class CustomerDAO implements CompleteCrudDAO<Customer, Integer> {
 
     private static final Logger LOG = LoggerFactory.getLogger(CustomerDAO.class);
 
@@ -58,7 +58,7 @@ public class CustomerDAO implements CompleteCrudDAO<Customer> {
     }
 
     @Override
-    public Customer findById(final int identifier) {
+    public Customer findById(final Integer identifier) {
         String sql = "SELECT CUSTOMER_ID, DISCOUNT_CODE, ZIP, NAME, ADDRESSLINE1, ADDRESSLINE2, CITY, STATE, PHONE, FAX, EMAIL, CREDIT_LIMIT " +
                 "FROM CUSTOMER WHERE CUSTOMER_ID = ?";
 
@@ -164,11 +164,6 @@ public class CustomerDAO implements CompleteCrudDAO<Customer> {
             LOG.error(e.getMessage(), e);
             return false;
         }
-    }
-
-    @Override
-    public Collection<Customer> buscarNombre(String description) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

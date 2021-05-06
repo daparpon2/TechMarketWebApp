@@ -14,7 +14,7 @@ function init() {
                     if (response.login === "true") {
                         switch (response.usertype.toUpperCase()) {
                             case "ADMIN" :
-                                $(location).attr("href", "adminhome");
+                                $(location).attr("href", "site");
                                 break;
                             default:
                                 Swal.fire({
@@ -25,12 +25,31 @@ function init() {
                                 });
                         }
                     } else {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error al iniciar sesión",
-                            text: "Usuario o contraseña erróneos. Por favor, vuelva a intentarlo.",
-                            confirmButtonText: "Aceptar"
-                        });
+                        switch (response.cause) {
+                            case "username":
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error al iniciar sesión",
+                                    text: "Usuario no registrado en el sistema. Por favor, vuelva a intentarlo.",
+                                    confirmButtonText: "Aceptar"
+                                });
+                                break;
+                            case "password":
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error al iniciar sesión",
+                                    text: "Contraseña errónea. Por favor, vuelva a intentarlo.",
+                                    confirmButtonText: "Aceptar"
+                                });
+                                break;
+                            default:
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error al iniciar sesión",
+                                    text: "Ha ocurrido un error al conectar con la base de datos. Por favor, vuelva a intentarlo o contacte con el equipo de administración.",
+                                    confirmButtonText: "Aceptar"
+                                });
+                        }
                     }
                 },
 

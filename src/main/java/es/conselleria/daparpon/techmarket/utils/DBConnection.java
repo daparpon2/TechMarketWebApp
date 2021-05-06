@@ -9,18 +9,20 @@ public class DBConnection {
     public static final String SQL_LOG_TEMPLATE = "[SQL] {}";
     private static final Logger LOG = LoggerFactory.getLogger(DBConnection.class);
 
-    private Connection conn = null;
+    private Connection conn;
 
     public DBConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection(DBParams.DB_URL, DBParams.DB_USER, DBParams.DB_PASSWORD);
-            conn.setSchema(DBParams.DB_NAME);
+            conn = DriverManager.getConnection(DBParams.DB_URL + "/" + DBParams.DB_NAME, DBParams.DB_USER, DBParams.DB_PASSWORD);
+            //conn.setSchema(DBParams.DB_NAME);
 
             if (conn != null) {
                 conn.isValid(1);
                 LOG.info("Connecting database [" + conn + "] OK");
                 LOG.info("Database properties have been initialized");
+            } else {
+                LOG.error("Database connection unavailable");
             }
         } catch (SQLException sqle) {
             LOG.error("Error when trying to open a connection", sqle);
@@ -30,9 +32,11 @@ public class DBConnection {
     }
 
     public Connection getConnection() throws SQLException {
-        if(conn != null) {
-            return conn;
-        } else throw new SQLException("Connection unavailable");
+        if (conn == null) {
+            LOG.error("Database connection driver not found");
+            throw new SQLException("Database connection driver not found");
+        }
+        return conn;
     }
 
     public void disconnect() {
@@ -40,6 +44,7 @@ public class DBConnection {
             try {
                 conn.close();
                 LOG.info("Closing database: [" + conn + "] OK");
+                conn = null;
             } catch (SQLException sqle) {
                 LOG.error("Error when trying to close database connection " + conn, sqle);
             }

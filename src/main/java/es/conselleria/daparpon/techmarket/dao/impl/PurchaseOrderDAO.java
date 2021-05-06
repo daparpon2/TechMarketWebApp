@@ -18,7 +18,7 @@ import java.util.Collections;
  *
  * @author Cesardl
  */
-public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
+public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder, Integer> {
 
     private static final Logger LOG = LoggerFactory.getLogger(PurchaseOrderDAO.class);
 
@@ -67,14 +67,14 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
     }
 
     @Override
-    public PurchaseOrder findById(final int identifier) {
+    public PurchaseOrder findById(final Integer identifier) {
         String sql = "SELECT ORDER_NUM, SALES_DATE, SHIPPING_DATE FROM PURCHASE_ORDER WHERE ORDER_NUM = ?";
 
         LOG.debug(DBConnection.SQL_LOG_TEMPLATE, sql);
 
         try (Connection conn = new DBConnection().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, identifier);
+            ps.setInt(1, (Integer)identifier);
 
             try (ResultSet rs = ps.executeQuery()) {
 
@@ -122,11 +122,6 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
 
     @Override
     public boolean update(PurchaseOrder t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Collection<PurchaseOrder> buscarNombre(String description) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

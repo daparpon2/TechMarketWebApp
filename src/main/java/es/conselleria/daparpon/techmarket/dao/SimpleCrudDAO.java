@@ -6,7 +6,7 @@ package es.conselleria.daparpon.techmarket.dao;
  * @param <T> entity to define
  * @author Cesardl
  */
-public interface SimpleCrudDAO<T> extends MasterCrudDAO<T> {
+public interface SimpleCrudDAO<T, E> extends MasterCrudDAO<T> {
 
     /**
      * Obtain specific element.
@@ -14,5 +14,5 @@ public interface SimpleCrudDAO<T> extends MasterCrudDAO<T> {
      * @param identifier element identifier
      * @return an element with code
      */
-    T findById(int identifier);
+    T findById(E identifier);
 }

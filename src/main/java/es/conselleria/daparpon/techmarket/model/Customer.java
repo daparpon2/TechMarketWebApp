@@ -23,19 +23,19 @@ public class Customer {
     @NotNull
     private MicroMarket microMarket;
 
-    @NotNull
-    @Size(min = 1, max = 30)
+    @NotEmpty
+    @Size(max = 30)
     private String name;
 
-    @NotNull
-    @Size(min = 1, max = 30)
+    @NotEmpty
+    @Size(max = 30)
     private String addressLine1;
 
     @Size(max = 30)
     private String addressLine2;
 
-    @NotNull
-    @Size(min = 1, max = 25)
+    @NotEmpty
+    @Size(max = 25)
     private String city;
 
     @NotNull
@@ -51,7 +51,7 @@ public class Customer {
     private String fax;
 
     @NotNull
-    //@Email
+    @Email
     @Size(max = 40)
     private String email;
 

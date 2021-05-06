@@ -15,7 +15,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title text-center text-primary font-weight-bold"">Sobre nosotros</h5>
+                        <h5 class="card-title text-center text-primary font-weight-bold">Un poco de nuestra historia...</h5>
                         <div class="card-text text-justify">
                             <p>
                                 Nuestra empresa nació en la Lima (Perú) del año 1988, como un pequeño minorista familiar
@@ -34,7 +34,7 @@
                 </div>
             </div>
         </div>
-        <div class="row d-none d-md-block">
+        <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
@@ -42,11 +42,14 @@
                         <div class="card-text text-justify">
                             <p>
                                 Para realizar pedidos se requiere estar registrado/a con una cuenta de usuario.
-                                Si dispones de una, puedes iniciar sesión <a class="text-primary" href="site">AQUÍ</a>.
+                                Si dispones de una, puedes iniciar sesión
+                                <button class="btn btn-primary d-inline d-md-none"><a class="text-light" href="site">Aquí</a></button>
+                                <a class="text-primary d-none d-md-inline" href="site">AQUÍ</a>.
                             </p>
                             <p>
                                 Si estás impaciente por comenzar a explorar nuestro extenso catálogo a la de ya, puedes hacerlo pulsando
-                                <a class="text-primary" href="products">AQUÍ</a>.
+                                <button class="btn btn-primary d-inline d-md-none"><a class="text-light" href="products">Aquí</a></button>
+                                <a class="text-primary d-none d-md-inline" href="products">AQUÍ</a>.
                             </p>
                         </div>
                     </div>
@@ -55,8 +58,6 @@
         </div>
     </div>  
 </div>
-
-
 <%@include file="shards/footer.jsp" %>
 <%@include file="shards/libscripts.html" %>
 <%@include file="shards/closing.html" %>

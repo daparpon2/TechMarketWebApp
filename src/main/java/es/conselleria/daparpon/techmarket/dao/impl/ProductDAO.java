@@ -18,7 +18,7 @@ import java.util.Collections;
  *
  * @author Cesardl
  */
-public class ProductDAO implements CompleteCrudDAO<Product> {
+public class ProductDAO implements CompleteCrudDAO<Product, Integer> {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProductDAO.class);
 
@@ -110,7 +110,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
     }
 
     @Override
-    public Product findById(final int identifier) {
+    public Product findById(final Integer identifier) {
         String sql = "SELECT P.PRODUCT_ID, P.DESCRIPTION, P.PURCHASE_COST, P.QUANTITY_ON_HAND, P.MARKUP, P.AVAILABLE, M.MANUFACTURER_ID, M.NAME, PC.PROD_CODE "
                 + "FROM PRODUCT P "
                 + "INNER JOIN MANUFACTURER M on P.MANUFACTURER_ID = M.MANUFACTURER_ID "
@@ -136,8 +136,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
         return null;
     }
 
-    @Override
-    public Collection<Product> buscarNombre(final String description) {
+    public Collection<Product> findName(final String description) {
         String sql = "SELECT P.PRODUCT_ID, P.DESCRIPTION, P.PURCHASE_COST, P.QUANTITY_ON_HAND, P.MARKUP, P.AVAILABLE, M.MANUFACTURER_ID, M.NAME, PC.PROD_CODE "
                 + "FROM PRODUCT P "
                 + "INNER JOIN MANUFACTURER M on P.MANUFACTURER_ID = M.MANUFACTURER_ID "

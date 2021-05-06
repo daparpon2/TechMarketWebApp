@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created on 07/07/2018.
@@ -13,49 +12,21 @@ import java.util.concurrent.ThreadLocalRandom;
  * @param <T>
  * @author Cesardl
  */
-public abstract class TemplateBusiness<T> {
+public abstract class TemplateBusiness<T, E> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TemplateBusiness.class);
+    protected CompleteCrudDAO<T, E> dao;
 
-    protected CompleteCrudDAO<T> dao;
-
-    private int identifierSize;
-
-    public void setDao(CompleteCrudDAO<T> dao) {
+    public void setDao(CompleteCrudDAO<T, E> dao) {
         this.dao = dao;
-    }
-
-    protected void setIdentifierSize(int origin) {
-        this.identifierSize = origin;
     }
 
     public abstract Collection<T> all();
 
-    public abstract boolean saveOrUpdate(final T element);
+    public abstract boolean save(T element);
+    
+    public abstract boolean update(T element);
 
-    public abstract T findById(Integer identifier);
+    public abstract T findById(E identifier);
 
-    public abstract boolean delete(Integer identifier);
-
-    protected int generateIdentifier() {
-        int id;
-        do {
-            id = getIdentifierByStrategy();
-            LOG.debug("Generating random product identifier {}", id);
-        } while (dao.findById(id) != null);
-        return id;
-    }
-
-    private int getIdentifierByStrategy() {
-        switch (identifierSize) {
-            case 6:
-                return ThreadLocalRandom.current().nextInt(100000, 1000000);
-
-            case 8:
-                return ThreadLocalRandom.current().nextInt(10000000, 100000000);
-
-            default:
-                return ThreadLocalRandom.current().nextInt(1000000);
-        }
-    }
+    public abstract boolean delete(E identifier);
 }

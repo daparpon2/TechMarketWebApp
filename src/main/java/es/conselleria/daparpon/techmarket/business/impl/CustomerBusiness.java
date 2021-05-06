@@ -20,7 +20,7 @@ import java.util.Collection;
 /**
  * @author Cesardl
  */
-public class CustomerBusiness extends TemplateBusiness<Customer> {
+public class CustomerBusiness extends TemplateBusiness<Customer, Integer> {
 
     private static final Logger LOG = LoggerFactory.getLogger(CustomerBusiness.class);
 
@@ -57,20 +57,6 @@ public class CustomerBusiness extends TemplateBusiness<Customer> {
     }
 
     @Override
-    public boolean saveOrUpdate(final Customer customer) {
-        if (customer.getCustomerId() == null) {
-            LOG.info("Adding customer: {}", customer);
-
-            int identifier = generateIdentifier();
-            customer.setCustomerId(identifier);
-            return dao.save(customer);
-        } else {
-            LOG.info("Updating customer: {}", customer);
-            return dao.update(customer);
-        }
-    }
-
-    @Override
     public Customer findById(final Integer identifier) {
         LOG.info("Searching customer by identifier: {}", identifier);
         return dao.findById(identifier);
@@ -82,5 +68,17 @@ public class CustomerBusiness extends TemplateBusiness<Customer> {
         Customer product = new Customer();
         product.setCustomerId(identifier);
         return dao.delete(product);
+    }
+
+    @Override
+    public boolean save(Customer customer) {
+        LOG.info("Adding customer: {}", customer);
+        return dao.save(customer);
+    }
+
+    @Override
+    public boolean update(Customer customer) {
+        LOG.info("Updating customer: {}", customer);
+        return dao.update(customer);
     }
 }
