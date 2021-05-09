@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,62 +43,46 @@ public class LoginService extends HttpServlet {
 
         User loginUser = UserBusiness.getInstance().findById(email);
 
-        //JsonObjectBuilder jsonBuilder;
-        String jsonOutput;
+        JsonObjectBuilder jsonBuilder;
 
         if (loginUser == null) {
-            jsonOutput = "\"login\":\"false\",\"cause\":\"error\"";
-            /*
             jsonBuilder = Json.createObjectBuilder()
                     .add("login", "false")
                     .add("cause", "error");
-             */
         } else {
             if (loginUser.getEmail() == null) {
-                jsonOutput = "\"login\":\"false\",\"cause\":\"username\"";
-            /*
-            jsonBuilder = Json.createObjectBuilder()
-                    .add("login", "false")
-                    .add("cause", "username");
-             */
+                jsonBuilder = Json.createObjectBuilder()
+                        .add("login", "false")
+                        .add("cause", "username");
             } else {
                 if (password.equals(loginUser.getPassword())) {
-                    jsonOutput = "\"login\":\"true\"";
-                    /*
-                jsonBuilder = Json.createObjectBuilder()
-                        .add("login", "true");
-                     */
-
+                    jsonBuilder = Json.createObjectBuilder()
+                            .add("login", "true");
                     if (loginUser.isAdmin()) {
                         request.getSession().setAttribute("usertype", "admin");
                         request.getSession().setAttribute("username", "Admin");
-                        jsonOutput += ",\"usertype\":\"admin\"";
-                        //jsonBuilder.add("usertype", "admin");
+                        jsonBuilder.add("usertype", "admin");
                     } else {
-                        // GET CUSTOMER NAME
-                        // ADD CUSTOMER ATTRIBUTES TO SESSION
-                        //jsonBuilder.add("usertype", "customer");
-                        jsonOutput += ",\"usertype\":\"customer\"";
+                        // TODO - GET CUSTOMER NAME
+                        // TODO - ADD CUSTOMER ATTRIBUTES TO SESSION
+                        jsonBuilder.add("usertype", "customer");
                     }
                 } else {
-                    jsonOutput = "\"login\":\"false\",\"cause\":\"password\"";
-                    /*
-                jsonBuilder = Json.createObjectBuilder()
-                        .add("login", "false")
-                        .add("cause", "password");
-                     */
+                    jsonBuilder = Json.createObjectBuilder()
+                            .add("login", "false")
+                            .add("cause", "password");
                 }
             }
         }
 
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
-        //JsonObject jsonObject = jsonBuilder.build();
+        JsonObject jsonObject = jsonBuilder.build();
         Writer writer = new StringWriter();
-        //Json.createWriter(writer).write(jsonObject);
+        Json.createWriter(writer).write(jsonObject);
         PrintWriter out = response.getWriter();
-        //out.print(writer.toString());
-        out.print("{" + jsonOutput + "}");
+        out.print(writer.toString());
+
     }
 
     /**
