@@ -62,7 +62,7 @@ input:invalid {
 
 #admin-body {
     background-image: linear-gradient(var(--primary), var(--primary-darkened));
-    height: max(75vh, 100%);
+    height: max(75vh, 120%);
 }
 
 #admin-body a:hover {

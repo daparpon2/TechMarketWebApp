@@ -193,10 +193,48 @@ function initializeCreationModal(modal) {
 }
 
 function initializeEditionModal(modal, dataRow) {
-    $("#modal #modal-button").prop("disabled", true);
+    modal.find("#modal-title").text("Editar producto existente");
+    modal.find("#modal-button").text("Guardar cambios");
+
+    modal.find("input").val("");
     modal.find("select option").remove();
     loadManufacturerSelect(modal);
     loadCategorySelect(modal);
+
+    $.ajax({
+        url: "product-service",
+        type: "get",
+        data: {
+            "id": dataRow.find("td:nth-child(2)").text()
+        },
+        dataType: "json",
+
+        success: function (response) {
+            modal.find("#product-id").val(response.productId);
+            modal.find("#description").val(response.description);
+            modal.find("#price").val(response.purchaseCost);
+            modal.find("#manufacturer option[value='" + response.manufacturer.manufacturerId + "']").prop("selected", true);
+            modal.find("#category option[value='" + response.productCode.prodCode + "']").prop("selected", true);
+            modal.find("#available").prop("checked", response.available);
+            modal.find("#quantity").prop("disabled", !response.available);
+            if (response.available) {
+                modal.find("#quantity").val(response.quantityOnHand);
+            }
+            modal.find("#markup").val(response.markup);
+
+            $("#modal #modal-button").prop("disabled", true);
+        },
+
+        error: function (xhr, status) {
+            Swal.fire({
+                icon: "error",
+                title: "Error de conexión",
+                text: "Ha ocurrido un error al conectar con la base de datos. Por favor, vuelva a intentarlo o contacte con el equipo de administración.",
+                confirmButtonText: "Aceptar",
+                confirmButtonColor: "#591259"
+            });
+        }
+    });
 }
 
 function initializeModal(event) {
@@ -216,7 +254,6 @@ function initializeFormValidation() {
         submitHandler: function () {
             var httpMethod;
             var quantity;
-            var image = "default-" + $("#category option:selected").text().toLowerCase() + ".png";
             if ($("#modal-button").text() === "Crear") {
                 httpMethod = "post";
             } else {
@@ -233,7 +270,8 @@ function initializeFormValidation() {
                 url: "product-service",
                 type: httpMethod,
                 data: {
-                    "image": image,
+                    "id": $("#product-id").val(),
+                    "image": "default-" + $("#category option:selected").text().toLowerCase() + ".png",
                     "description": $("#description").val(),
                     "purchaseCost": $("#price").val(),
                     "manufacturerId": $("#manufacturer").val(),
@@ -245,35 +283,68 @@ function initializeFormValidation() {
                 dataType: "json",
 
                 success: function (response) {
-                    if (response !== null) {
-                        $("table").append("<tr>"
-                                + "<td class='text-center'><img class='table-image' src='resources/images/products/" + response.image + "'/></td>"
-                                + "<td>" + response.productId + "</td>"
-                                + "<td class='text-truncate'>" + response.description + "</td>"
-                                + "<td>" + response.purchaseCost + " €</td>"
-                                + operationButtonsHTML()
-                                );
-                        $("table tr:last-child td:last-child .detail-button .icon").load("shards/bootstrap-icons/show-icon.html");
-                        $("table tr:last-child td:last-child .edit-button .icon").load("shards/bootstrap-icons/edit-icon.html");
-                        $("table tr:last-child td:last-child .remove-button .icon").load("shards/bootstrap-icons/remove-icon.html");
-                        initializeTableButtonListeners();
-                        $("#modal").modal("hide");
+                    switch (httpMethod.toUpperCase()) {
+                        case "POST":
+                            if (response !== null) {
+                                $("#product-table").append("<tr>"
+                                        + "<td class='text-center'><img class='table-image' src='resources/images/products/" + response.image + "'/></td>"
+                                        + "<td>" + response.productId + "</td>"
+                                        + "<td class='text-truncate'>" + response.description + "</td>"
+                                        + "<td>" + response.purchaseCost + " €</td>"
+                                        + operationButtonsHTML()
+                                        );
+                                $("#product-table tr:last-child td:last-child .detail-button .icon").load("shards/bootstrap-icons/show-icon.html");
+                                $("#product-table tr:last-child td:last-child .edit-button .icon").load("shards/bootstrap-icons/edit-icon.html");
+                                $("#product-table tr:last-child td:last-child .remove-button .icon").load("shards/bootstrap-icons/remove-icon.html");
+                                initializeTableButtonListeners();
+                                $("#modal").modal("hide");
 
-                        Swal.fire({
-                            icon: "success",
-                            title: "Producto añadido",
-                            text: "Producto nuevo creado con éxito.",
-                            confirmButtonText: "Aceptar",
-                            confirmButtonColor: "#591259"
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error al insertar",
-                            text: "Ha ocurrido un error. El producto no se ha podido insertar. Por favor, vuelva a intentarlo o contacte con el equipo de administración.",
-                            confirmButtonText: "Aceptar",
-                            confirmButtonColor: "#591259"
-                        });
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Producto añadido",
+                                    text: "Producto nuevo creado con éxito.",
+                                    confirmButtonText: "Aceptar",
+                                    confirmButtonColor: "#591259"
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error al insertar",
+                                    text: "Ha ocurrido un error. El producto no se ha podido insertar. Por favor, vuelva a intentarlo o contacte con el equipo de administración.",
+                                    confirmButtonText: "Aceptar",
+                                    confirmButtonColor: "#591259"
+                                });
+                            }
+                            break;
+                        case "PUT":
+                            if (response) {
+                                $("#product-table tr td:nth-child(2):contains('" + $("#product-id").val() + "')+td").text($("#description").val());
+                                $("#product-table tr td:nth-child(2):contains('" + $("#product-id").val() + "')+td+td").text($("#price").val().replace(",",".") + " €");
+                                
+                                if($("#product-table tr td:nth-child(2):contains('" + $("#product-id").val() + "')+td+td+td .detail-button:visible .label").text() === "Ocultar") {
+                                    $("#product-table tr td:nth-child(2):contains('" + $("#product-id").val() + "')+td+td+td .detail-button:visible").click();
+                                }
+                                
+                                $("#modal").modal("hide");
+
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Producto editado",
+                                    text: "Producto editado con éxito.",
+                                    confirmButtonText: "Aceptar",
+                                    confirmButtonColor: "#591259"
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error al modificar",
+                                    text: "Ha ocurrido un error. El producto no se ha podido modificar. Por favor, vuelva a intentarlo o contacte con el equipo de administración.",
+                                    confirmButtonText: "Aceptar",
+                                    confirmButtonColor: "#591259"
+                                });
+                            }
+                            break;
+                        default:
                     }
                 },
 

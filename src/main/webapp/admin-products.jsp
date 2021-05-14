@@ -28,7 +28,7 @@
                                     <%@include file="shards/bootstrap-icons/add-icon.html" %>
                                     <span>Añadir producto</span>
                                 </button>
-                                <table class="table table-hover table-bordered">
+                                <table class="table table-hover table-bordered" id="product-table">
                                     <tr>
                                         <th>Imagen</th>
                                         <th>ID</th>
@@ -95,6 +95,7 @@
                                         <input type="file" class="form-control" id="image"/>
                                     </div>
                                     -->
+                                    <input type="text" id="product-id" hidden="hidden"/>
                                     <div class="form-group">
                                         <label for="description" class="col-form-label">Descripción<span class="obligatorio">*</span></label>
                                         <input type="text" class="form-control" id="description" name="description"/>
@@ -105,7 +106,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">€</span>
                                             </div>
-                                            <input type="number" class="form-control" id="price" name="price" min="0" step="0.1"/>
+                                            <input type="number" class="form-control" id="price" name="price" min="0" step="0.01"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -130,7 +131,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">%</span>
                                             </div>
-                                            <input type="number" class="form-control" id="markup" name="markup" min="0" step="0.1"/>
+                                            <input type="number" class="form-control" id="markup" name="markup" min="0" step="0.01"/>
                                         </div>
                                     </div>
                                     <small class="form-text">
