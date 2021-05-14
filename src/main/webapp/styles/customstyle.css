@@ -23,6 +23,14 @@ input:invalid {
     transform: rotate(180deg);
 }
 
+.add-button+table {
+    margin-top: 2vh;
+}
+
+.table-image {
+    width: 5vw;
+}
+
 #menu-button {
     border: solid var(--primary);
 }
@@ -52,6 +60,20 @@ input:invalid {
     height: 100%;
 }
 
+#admin-body {
+    background-image: linear-gradient(var(--primary), var(--primary-darkened));
+    height: max(75vh, 100%);
+}
+
+#admin-body a:hover {
+    color: var(--secondary);
+    text-decoration: none;
+}
+
+#admin-body .card {
+    margin-top: 3vh;
+}
+
 #home-body .card {
     margin-top: 3vh;
     background-color: rgba(255,255,255,0.9);
@@ -71,6 +93,10 @@ input:invalid {
     #social-icons img {
         width: 7vw;
     }
+    
+    #admin-body ul button {
+        margin-bottom: 2vh;
+    }
 }
 
 /* SM SIZE */
@@ -85,6 +111,10 @@ input:invalid {
 
     #social-icons img {
         width: 3.5vw;
+    }
+    
+    #admin-body ul button {
+        margin-bottom: 2vh;
     }
 }
 

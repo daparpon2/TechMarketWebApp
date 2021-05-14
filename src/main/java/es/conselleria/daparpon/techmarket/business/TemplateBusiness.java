@@ -22,7 +22,7 @@ public abstract class TemplateBusiness<T, E> {
 
     public abstract Collection<T> all();
 
-    public abstract boolean save(T element);
+    public abstract E save(T element);
     
     public abstract boolean update(T element);
 

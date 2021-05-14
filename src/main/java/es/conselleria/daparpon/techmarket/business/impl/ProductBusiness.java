@@ -77,7 +77,7 @@ public class ProductBusiness extends TemplateBusiness<Product, Integer> {
     }
 
     @Override
-    public boolean save(Product product) {
+    public Integer save(Product product) {
         LOG.info("Adding product: {}", product);
         return dao.save(product);
     }

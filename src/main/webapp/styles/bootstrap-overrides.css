@@ -4,8 +4,10 @@
 :root {
     --primary: #591259;
     --primary-darkened: #2e092e;
+    --primary-lightened: #da48da;
     --secondary: #409A1C;
     --secondary-darkened: #2e6e14;
+    --secondary-lightened: #a1e884;
 }
 
 /*------------------------------------

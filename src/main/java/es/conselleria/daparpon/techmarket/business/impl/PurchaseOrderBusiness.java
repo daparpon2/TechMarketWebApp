@@ -51,7 +51,7 @@ public class PurchaseOrderBusiness extends TemplateBusiness<PurchaseOrder, Integ
     }
 
     @Override
-    public boolean save(PurchaseOrder purchaseOrder) {
+    public Integer save(PurchaseOrder purchaseOrder) {
         Date date = new Date();
         purchaseOrder.setSalesDate(date);
 

@@ -51,7 +51,7 @@ public class UserBusiness extends TemplateBusiness<User, String> {
     }
 
     @Override
-    public boolean save(User user) {
+    public String save(User user) {
         LOG.info("Adding user: {}", user);
         return dao.save(user);
     }

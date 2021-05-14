@@ -25,7 +25,7 @@ public class UserDAO implements CompleteCrudDAO<User, String> {
     private static final Logger LOG = LoggerFactory.getLogger(UserDAO.class);
 
     @Override
-    public boolean save(User t) {
+    public String save(User t) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

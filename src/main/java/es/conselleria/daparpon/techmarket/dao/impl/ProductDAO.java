@@ -1,6 +1,7 @@
 package es.conselleria.daparpon.techmarket.dao.impl;
 
 import es.conselleria.daparpon.techmarket.dao.CompleteCrudDAO;
+import es.conselleria.daparpon.techmarket.model.DiscountCode;
 import es.conselleria.daparpon.techmarket.model.Manufacturer;
 import es.conselleria.daparpon.techmarket.model.Product;
 import es.conselleria.daparpon.techmarket.model.ProductCode;
@@ -24,12 +25,12 @@ public class ProductDAO implements CompleteCrudDAO<Product, Integer> {
 
     @Override
     public Collection<Product> getAll() {
-        String sql = "SELECT PRODUCT_ID, DESCRIPTION FROM PRODUCT WHERE QUANTITY_ON_HAND <> 0 AND AVAILABLE = TRUE";
+        String sql = "SELECT IMAGE, PRODUCT_ID, DESCRIPTION, PURCHASE_COST FROM PRODUCT";
 
         LOG.debug(DBConnection.SQL_LOG_TEMPLATE, sql);
 
         try (Connection conn = new DBConnection().getConnection();
-             Statement s = conn.createStatement()) {
+                Statement s = conn.createStatement()) {
             s.execute(sql);
 
             try (ResultSet rs = s.getResultSet()) {
@@ -37,8 +38,10 @@ public class ProductDAO implements CompleteCrudDAO<Product, Integer> {
 
                 while (rs.next()) {
                     Product p = new Product();
+                    p.setImage(rs.getString("IMAGE"));
                     p.setProductId(rs.getInt("PRODUCT_ID"));
                     p.setDescription(rs.getString("DESCRIPTION"));
+                    p.setPurchaseCost(rs.getDouble("PURCHASE_COST"));
 
                     products.add(p);
                 }
@@ -52,16 +55,16 @@ public class ProductDAO implements CompleteCrudDAO<Product, Integer> {
     }
 
     @Override
-    public boolean save(final Product product) {
-        String sql = "INSERT INTO PRODUCT(PRODUCT_ID, MANUFACTURER_ID, PRODUCT_CODE, PURCHASE_COST, QUANTITY_ON_HAND, MARKUP, AVAILABLE, DESCRIPTION) "
+    public Integer save(final Product product) {
+        String sql = "INSERT INTO PRODUCT(IMAGE, MANUFACTURER_ID, PRODUCT_CODE, PURCHASE_COST, QUANTITY_ON_HAND, MARKUP, AVAILABLE, DESCRIPTION) "
                 + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
         LOG.debug(DBConnection.SQL_LOG_TEMPLATE, sql);
 
         try (Connection conn = new DBConnection().getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, product.getProductId());
+            ps.setString(1, product.getImage());
             ps.setInt(2, product.getManufacturer().getManufacturerId());
             ps.setString(3, product.getProductCode().getProdCode());
             ps.setDouble(4, product.getPurchaseCost());
@@ -73,22 +76,34 @@ public class ProductDAO implements CompleteCrudDAO<Product, Integer> {
             int result = ps.executeUpdate();
 
             LOG.debug("Number of affected rows {}", result);
-            return true;
+
+            try (Statement s = conn.createStatement()) {
+                s.execute("SELECT MAX(PRODUCT_ID) FROM PRODUCT");
+                ResultSet rs = s.getResultSet();
+
+                if (rs.next()) {
+                    int newId = rs.getInt("MAX(PRODUCT_ID)");
+                    LOG.info("Checking new product ID: {}", newId);
+                    return newId;
+                } else {
+                    return null;
+                }
+            }
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
-            return false;
+            return null;
         }
     }
 
     @Override
     public boolean update(final Product product) {
-        String sql = "UPDATE PRODUCT SET MANUFACTURER_ID = ?, PRODUCT_CODE = ?, PURCHASE_COST = ?, QUANTITY_ON_HAND = ?, MARKUP = ?, AVAILABLE = ?, DESCRIPTION = ? " +
-                "WHERE PRODUCT_ID = ?";
+        String sql = "UPDATE PRODUCT SET MANUFACTURER_ID = ?, PRODUCT_CODE = ?, PURCHASE_COST = ?, QUANTITY_ON_HAND = ?, MARKUP = ?, AVAILABLE = ?, DESCRIPTION = ? "
+                + "WHERE PRODUCT_ID = ?";
 
         LOG.debug(DBConnection.SQL_LOG_TEMPLATE, sql);
 
         try (Connection connection = new DBConnection().getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+                PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, product.getManufacturer().getManufacturerId());
             ps.setString(2, product.getProductCode().getProdCode());
@@ -111,16 +126,17 @@ public class ProductDAO implements CompleteCrudDAO<Product, Integer> {
 
     @Override
     public Product findById(final Integer identifier) {
-        String sql = "SELECT P.PRODUCT_ID, P.DESCRIPTION, P.PURCHASE_COST, P.QUANTITY_ON_HAND, P.MARKUP, P.AVAILABLE, M.MANUFACTURER_ID, M.NAME, PC.PROD_CODE "
+        String sql = "SELECT P.*, M.NAME, PC.DESCRIPTION, PC.DISCOUNT_CODE, DC.RATE "
                 + "FROM PRODUCT P "
                 + "INNER JOIN MANUFACTURER M on P.MANUFACTURER_ID = M.MANUFACTURER_ID "
                 + "INNER JOIN PRODUCT_CODE PC on P.PRODUCT_CODE = PC.PROD_CODE "
+                + "INNER JOIN DISCOUNT_CODE DC on PC.DISCOUNT_CODE = DC.DISCOUNT_CODE "
                 + "WHERE PRODUCT_ID = ?";
 
         LOG.debug(DBConnection.SQL_LOG_TEMPLATE, sql);
 
         try (Connection conn = new DBConnection().getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, identifier);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -146,7 +162,7 @@ public class ProductDAO implements CompleteCrudDAO<Product, Integer> {
         LOG.debug(DBConnection.SQL_LOG_TEMPLATE, sql);
 
         try (Connection conn = new DBConnection().getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, "%" + description.toUpperCase() + "%");
 
             Collection<Product> vProducts = new ArrayList<>();
@@ -172,7 +188,7 @@ public class ProductDAO implements CompleteCrudDAO<Product, Integer> {
         LOG.debug(DBConnection.SQL_LOG_TEMPLATE, sql);
 
         try (Connection connection = new DBConnection().getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+                PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, product.getProductId());
 
@@ -188,8 +204,9 @@ public class ProductDAO implements CompleteCrudDAO<Product, Integer> {
 
     private Product parseProduct(final ResultSet rs) throws SQLException {
         Product p = new Product();
+        p.setImage(rs.getString("IMAGE"));
         p.setProductId(rs.getInt("PRODUCT_ID"));
-        p.setDescription(rs.getString("DESCRIPTION"));
+        p.setDescription(rs.getString("P.DESCRIPTION"));
         p.setPurchaseCost(rs.getDouble("PURCHASE_COST"));
         p.setQuantityOnHand(rs.getInt("QUANTITY_ON_HAND"));
         p.setMarkup(rs.getDouble("MARKUP"));
@@ -201,7 +218,13 @@ public class ProductDAO implements CompleteCrudDAO<Product, Integer> {
         p.setManufacturer(m);
 
         ProductCode pc = new ProductCode();
-        pc.setProdCode(rs.getString("PROD_CODE"));
+        pc.setProdCode(rs.getString("PRODUCT_CODE"));
+        pc.setDescription(rs.getString("PC.DESCRIPTION"));
+        DiscountCode dc = new DiscountCode();
+        dc.setDiscountCode(rs.getString("DISCOUNT_CODE").charAt(0));
+        dc.setRate(rs.getDouble("RATE"));
+        pc.setDiscountCode(dc);
+
         p.setProductCode(pc);
 
         return p;

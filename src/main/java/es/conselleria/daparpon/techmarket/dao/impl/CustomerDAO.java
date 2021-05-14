@@ -101,7 +101,7 @@ public class CustomerDAO implements CompleteCrudDAO<Customer, Integer> {
     }
 
     @Override
-    public boolean save(final Customer customer) {
+    public Integer save(final Customer customer) {
         String sql = "INSERT INTO CUSTOMER(CUSTOMER_ID, DISCOUNT_CODE, ZIP, NAME, ADDRESSLINE1, ADDRESSLINE2, CITY, STATE, PHONE, FAX, EMAIL, CREDIT_LIMIT) "
                 + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -126,10 +126,10 @@ public class CustomerDAO implements CompleteCrudDAO<Customer, Integer> {
             int result = ps.executeUpdate();
 
             LOG.debug("Number of affected rows {}", result);
-            return true;
+            return customer.getCustomerId();
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
-            return false;
+            return null;
         }
     }
 

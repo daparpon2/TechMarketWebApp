@@ -71,7 +71,7 @@ public class CustomerBusiness extends TemplateBusiness<Customer, Integer> {
     }
 
     @Override
-    public boolean save(Customer customer) {
+    public Integer save(Customer customer) {
         LOG.info("Adding customer: {}", customer);
         return dao.save(customer);
     }

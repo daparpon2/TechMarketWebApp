@@ -21,7 +21,8 @@ function init() {
                                     icon: "success",
                                     title: "Logueado correctamente como cliente",
                                     text: "Esta función aún no está disponible. ¡Gracias por su paciencia!",
-                                    confirmButtonText: "Aceptar"
+                                    confirmButtonText: "Aceptar",
+                                    confirmButtonColor: "#591259"
                                 });
                         }
                     } else {
@@ -31,7 +32,8 @@ function init() {
                                     icon: "error",
                                     title: "Error al iniciar sesión",
                                     text: "Usuario no registrado en el sistema. Por favor, vuelva a intentarlo.",
-                                    confirmButtonText: "Aceptar"
+                                    confirmButtonText: "Aceptar",
+                                    confirmButtonColor: "#591259"
                                 });
                                 break;
                             case "password":
@@ -39,7 +41,8 @@ function init() {
                                     icon: "error",
                                     title: "Error al iniciar sesión",
                                     text: "Contraseña errónea. Por favor, vuelva a intentarlo.",
-                                    confirmButtonText: "Aceptar"
+                                    confirmButtonText: "Aceptar",
+                                    confirmButtonColor: "#591259"
                                 });
                                 break;
                             default:
@@ -47,7 +50,8 @@ function init() {
                                     icon: "error",
                                     title: "Error al iniciar sesión",
                                     text: "Ha ocurrido un error al conectar con la base de datos. Por favor, vuelva a intentarlo o contacte con el equipo de administración.",
-                                    confirmButtonText: "Aceptar"
+                                    confirmButtonText: "Aceptar",
+                                    confirmButtonColor: "#591259"
                                 });
                         }
                     }
@@ -58,7 +62,8 @@ function init() {
                         icon: "error",
                         title: "Error de conexión",
                         text: "Ha ocurrido un error al conectar con la base de datos. Por favor, vuelva a intentarlo o contacte con el equipo de administración.",
-                        confirmButtonText: "Aceptar"
+                        confirmButtonText: "Aceptar",
+                        confirmButtonColor: "#591259"
                     });
                 }
             });

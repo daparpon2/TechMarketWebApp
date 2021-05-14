@@ -94,7 +94,7 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder, Integer>
     }
 
     @Override
-    public boolean save(final PurchaseOrder purchaseOrder) {
+    public Integer save(final PurchaseOrder purchaseOrder) {
         String sql = "INSERT INTO PURCHASE_ORDER(ORDER_NUM, CUSTOMER_ID, PRODUCT_ID, QUANTITY, SALES_DATE, SHIPPING_DATE) "
                 + "VALUES(?, ?, ?, ?, ?, ?)";
 
@@ -113,10 +113,10 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder, Integer>
             int result = ps.executeUpdate();
 
             LOG.debug("Number of affected rows {}", result);
-            return true;
+            return purchaseOrder.getOrderNum();
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
-            return false;
+            return null;
         }
     }
 

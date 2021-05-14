@@ -25,7 +25,7 @@ public class ManufacturerDAO implements MasterCrudDAO<Manufacturer> {
 
     @Override
     public Collection<Manufacturer> getAll() {
-        String sql = "SELECT MANUFACTURER_ID, NAME, EMAIL FROM MANUFACTURER ORDER BY NAME, EMAIL";
+        String sql = "SELECT MANUFACTURER_ID, NAME FROM MANUFACTURER ORDER BY NAME";
 
         LOG.debug(DBConnection.SQL_LOG_TEMPLATE, sql);
 
@@ -40,7 +40,6 @@ public class ManufacturerDAO implements MasterCrudDAO<Manufacturer> {
                     Manufacturer m = new Manufacturer();
                     m.setManufacturerId(rs.getInt("MANUFACTURER_ID"));
                     m.setName(rs.getString("NAME"));
-                    m.setEmail(rs.getString("EMAIL"));
 
                     manufacturers.add(m);
                 }

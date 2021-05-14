@@ -1,5 +1,4 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%-- <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> --%>
 <%@include file="shards/opening.html" %>
 <%@include file="shards/navbar-header.html" %>
 <li class="nav-item"><a class="nav-link active" href="#">Inicio</a></li>
@@ -54,8 +53,8 @@
                             <div class="form-group">
                                 <label for="pwd">Contraseña<span class="obligatorio">*</span></label>
                                 <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Ingresa tu contraseña"/>
-                                <small class="form-text text-muted"><span class="obligatorio">*</span>: Obligatorio</small>
-                                <small class="form-text"><a class="text-primary" href="">¿Has olvidado tu contraseña?</a></small>
+                                <%@include file="shards/form-footer.html" %>
+                                <!-- <small class="form-text"><a class="text-primary" href="">¿Has olvidado tu contraseña?</a></small> -->
                             </div>
                             <div>
                                 <button type="submit" class="btn btn-outline-primary btn-block d-none d-lg-block">Iniciar sesión</button>

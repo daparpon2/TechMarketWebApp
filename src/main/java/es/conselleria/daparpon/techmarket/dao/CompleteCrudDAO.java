@@ -14,9 +14,9 @@ public interface CompleteCrudDAO<T, E> extends SimpleCrudDAO<T, E> {
      * Save an element.
      *
      * @param t the element
-     * @return true if was saved
+     * @return the E identifier of the new row in database, null if could not be saved
      */
-    boolean save(T t);
+    E save(T t);
 
     /**
      * Updating an element.

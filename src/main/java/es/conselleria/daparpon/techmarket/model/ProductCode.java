@@ -1,5 +1,8 @@
 package es.conselleria.daparpon.techmarket.model;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 /**
  * Created on 14/06/2018.
  *
@@ -9,6 +12,10 @@ public class ProductCode {
 
     private String prodCode;
     private String description;
+    
+    @Valid
+    @NotNull
+    private DiscountCode discountCode;
 
     public String getProdCode() {
         return prodCode;
@@ -24,6 +31,14 @@ public class ProductCode {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public DiscountCode getDiscountCode() {
+        return discountCode;
+    }
+
+    public void setDiscountCode(DiscountCode discountCode) {
+        this.discountCode = discountCode;
     }
 
     @Override

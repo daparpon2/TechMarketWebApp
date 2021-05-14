@@ -9,6 +9,7 @@ package es.conselleria.daparpon.techmarket.model;
  */
 public class Product {
 
+    private String image;
     private Integer productId;
     private Manufacturer manufacturer;
     private ProductCode productCode;
@@ -24,12 +25,21 @@ public class Product {
         this.markup = 0.0;
     }
 
-    public Product(Integer productId, String description, Double purchaseCost, Integer quantityOnHand, Double markup) {
+    public Product(String image, Integer productId, String description, Double purchaseCost, Integer quantityOnHand, Double markup) {
+        this.image = image;
         this.productId = productId;
         this.description = description;
         this.purchaseCost = purchaseCost;
         this.quantityOnHand = quantityOnHand;
         this.markup = markup;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Integer getProductId() {

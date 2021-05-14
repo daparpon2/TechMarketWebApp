@@ -1,5 +1,11 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package es.conselleria.daparpon.techmarket.controller;
 
+import es.conselleria.daparpon.techmarket.business.impl.ProductBusiness;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,12 +16,13 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Daniel Pardo Pont
+ * @author Yo mismo
  */
-@WebServlet(name = "SiteController", urlPatterns = {"/site"})
-public class SiteController extends HttpServlet {
+@WebServlet(name = "ProductController", urlPatterns = {"/products"})
+public class ProductController extends HttpServlet {
 
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -27,20 +34,25 @@ public class SiteController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setAttribute("products", ProductBusiness.getInstance().all());
+        
         RequestDispatcher rd;
         if(request.getSession().getAttribute("username") != null) {
-            rd = request.getRequestDispatcher("/admin.jsp");
+            rd = request.getRequestDispatcher("/admin-products.jsp");
         } else {
-            rd = request.getRequestDispatcher("/index.jsp");
+            rd = request.getRequestDispatcher("/guest-products.jsp");
         }
         rd.forward(request, response);
     }
 
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
     @Override
     public String getServletInfo() {
-        return "";
-    }
-    
-    
+        return "Short description";
+    }// </editor-fold>
 
 }
