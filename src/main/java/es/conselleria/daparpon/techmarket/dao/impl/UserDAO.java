@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author Yo mismo
+ * @author Daniel Pardo Pont
  */
 public class UserDAO implements CompleteCrudDAO<User, String> {
     

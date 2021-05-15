@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Yo mismo
+ * @author Daniel Pardo Pont
  */
 @WebServlet(name = "TestDB", urlPatterns = {"/testdb"})
 public class TestDB extends HttpServlet {

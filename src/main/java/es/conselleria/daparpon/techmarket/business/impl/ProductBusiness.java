@@ -20,6 +20,8 @@ import java.util.Collection;
 /**
  * @author Eliana Zapata
  * @since 2009
+ * 
+ * Modified on 14/05/2021 by Daniel Pardo Pont
  */
 public class ProductBusiness extends TemplateBusiness<Product, Integer> {
 

@@ -2,6 +2,8 @@ package es.conselleria.daparpon.techmarket.dao.impl;
 
 import es.conselleria.daparpon.techmarket.dao.CompleteCrudDAO;
 import es.conselleria.daparpon.techmarket.model.Customer;
+import es.conselleria.daparpon.techmarket.model.FreightCompany;
+import es.conselleria.daparpon.techmarket.model.OrderStatus;
 import es.conselleria.daparpon.techmarket.model.Product;
 import es.conselleria.daparpon.techmarket.model.PurchaseOrder;
 import es.conselleria.daparpon.techmarket.utils.DBConnection;
@@ -15,6 +17,8 @@ import java.util.Collections;
 
 /**
  * Created on 17/06/2018.
+ * 
+ * Modified on 14/05/2021 by Daniel Pardo Pont
  *
  * @author Cesardl
  */
@@ -24,10 +28,11 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder, Integer>
 
     @Override
     public Collection<PurchaseOrder> getAll() {
-        String sql = "SELECT PO.ORDER_NUM, C.NAME, P.DESCRIPTION, PO.QUANTITY, PO.SALES_DATE, PO.SHIPPING_DATE " +
+        String sql = "SELECT PO.*, C.NAME, FC.NAME, OS.DESCRIPTION " +
                 "FROM PURCHASE_ORDER PO " +
                 "INNER JOIN CUSTOMER C on PO.CUSTOMER_ID = C.CUSTOMER_ID " +
-                "INNER JOIN PRODUCT P on PO.PRODUCT_ID = P.PRODUCT_ID " +
+                "INNER JOIN FREIGHT_COMPANY FC on PO.FREIGHT_COMPANY = FC.COMPANY_ID " +
+                "INNER JOIN ORDER_STATUS OS on PO.STATUS = OS.STATUS_CODE " +
                 "ORDER BY PO.SALES_DATE DESC";
 
         LOG.debug(DBConnection.SQL_LOG_TEMPLATE, sql);
@@ -41,19 +46,23 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder, Integer>
 
                 while (rs.next()) {
                     PurchaseOrder purchaseOrder = new PurchaseOrder();
-                    purchaseOrder.setOrderNum(rs.getInt(1));
+                    purchaseOrder.setOrderNum(rs.getInt("ORDER_NUM"));
 
                     Customer customer = new Customer();
-                    customer.setName(rs.getString(2));
+                    customer.setName(rs.getString("C.NAME"));
                     purchaseOrder.setCustomer(customer);
 
-                    Product product = new Product();
-                    product.setDescription(rs.getString(3));
-                    purchaseOrder.setProduct(product);
+                    FreightCompany company = new FreightCompany();
+                    company.setName(rs.getString("FC.NAME"));
+                    purchaseOrder.setFreightCompany(company);
+                    
+                    OrderStatus status = new OrderStatus();
+                    status.setDescription(rs.getString("OS.DESCRIPTION"));
+                    purchaseOrder.setStatus(status);
 
-                    purchaseOrder.setQuantity(rs.getInt(4));
-                    purchaseOrder.setSalesDate(rs.getDate(5));
-                    purchaseOrder.setShippingDate(rs.getDate(6));
+                    purchaseOrder.setShippingCost(rs.getDouble("SHIPPING_COST"));
+                    purchaseOrder.setSalesDate(rs.getDate("SALES_DATE"));
+                    purchaseOrder.setShippingDate(rs.getDate("SHIPPING_DATE"));
 
                     purchaseOrders.add(purchaseOrder);
                 }
@@ -105,8 +114,8 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder, Integer>
 
             ps.setInt(1, purchaseOrder.getOrderNum());
             ps.setInt(2, purchaseOrder.getCustomer().getCustomerId());
-            ps.setInt(3, purchaseOrder.getProduct().getProductId());
-            ps.setInt(4, purchaseOrder.getQuantity());
+            //ps.setInt(3, purchaseOrder.getProduct().getProductId());
+            //ps.setInt(4, purchaseOrder.getQuantity());
             ps.setDate(5, new java.sql.Date(purchaseOrder.getSalesDate().getTime()));
             ps.setDate(6, new java.sql.Date(purchaseOrder.getShippingDate().getTime()));
 

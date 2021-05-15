@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Yo mismo
+ * @author Daniel Pardo Pont
  */
 @WebServlet(name = "ProductService", urlPatterns = {"/product-service"})
 public class ProductService extends HttpServlet {
@@ -59,7 +59,7 @@ public class ProductService extends HttpServlet {
                 default:
             }
         } else {
-
+            //DO NOTHING
         }
     }
 
@@ -178,5 +178,4 @@ public class ProductService extends HttpServlet {
 
         return product;
     }
-
 }

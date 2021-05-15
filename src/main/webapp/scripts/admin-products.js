@@ -90,6 +90,9 @@ function removeProduct() {
                 type: "delete",
                 success: function (response) {
                     if (response === true) {
+                        if (pressedButton.parent().find(".detail-button:visible .label").text() === "Ocultar") {
+                            pressedButton.parent().find(".detail-button:visible").click();
+                        }
                         pressedButton.parent().parent().parent().remove();
                         Swal.fire({
                             icon: "success",
@@ -319,12 +322,12 @@ function initializeFormValidation() {
                         case "PUT":
                             if (response) {
                                 $("#product-table tr td:nth-child(2):contains('" + $("#product-id").val() + "')+td").text($("#description").val());
-                                $("#product-table tr td:nth-child(2):contains('" + $("#product-id").val() + "')+td+td").text($("#price").val().replace(",",".") + " €");
-                                
-                                if($("#product-table tr td:nth-child(2):contains('" + $("#product-id").val() + "')+td+td+td .detail-button:visible .label").text() === "Ocultar") {
+                                $("#product-table tr td:nth-child(2):contains('" + $("#product-id").val() + "')+td+td").text($("#price").val().replace(",", ".") + " €");
+
+                                if ($("#product-table tr td:nth-child(2):contains('" + $("#product-id").val() + "')+td+td+td .detail-button:visible .label").text() === "Ocultar") {
                                     $("#product-table tr td:nth-child(2):contains('" + $("#product-id").val() + "')+td+td+td .detail-button:visible").click();
                                 }
-                                
+
                                 $("#modal").modal("hide");
 
                                 Swal.fire({

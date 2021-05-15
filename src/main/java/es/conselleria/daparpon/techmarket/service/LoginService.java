@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Yo mismo
+ * @author Daniel Pardo Pont
  */
 @WebServlet(name = "LoginService", urlPatterns = {"/login"})
 public class LoginService extends HttpServlet {
@@ -84,15 +84,4 @@ public class LoginService extends HttpServlet {
         out.print(writer.toString());
 
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }
-
 }

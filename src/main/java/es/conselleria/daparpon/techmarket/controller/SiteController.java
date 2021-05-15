@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "SiteController", urlPatterns = {"/site"})
 public class SiteController extends HttpServlet {
 
-
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -28,19 +27,11 @@ public class SiteController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         RequestDispatcher rd;
-        if(request.getSession().getAttribute("username") != null) {
+        if (request.getSession().getAttribute("username") != null) {
             rd = request.getRequestDispatcher("/admin.jsp");
         } else {
             rd = request.getRequestDispatcher("/index.jsp");
         }
         rd.forward(request, response);
     }
-
-    @Override
-    public String getServletInfo() {
-        return "";
-    }
-    
-    
-
 }

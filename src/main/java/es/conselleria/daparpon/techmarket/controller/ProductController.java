@@ -16,11 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Yo mismo
+ * @author Daniel Pardo Pont
  */
 @WebServlet(name = "ProductController", urlPatterns = {"/products"})
 public class ProductController extends HttpServlet {
-
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -34,24 +33,13 @@ public class ProductController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("products", ProductBusiness.getInstance().all());
-        
+
         RequestDispatcher rd;
-        if(request.getSession().getAttribute("username") != null) {
+        if (request.getSession().getAttribute("username") != null) {
             rd = request.getRequestDispatcher("/admin-products.jsp");
         } else {
             rd = request.getRequestDispatcher("/guest-products.jsp");
         }
         rd.forward(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }
-
 }

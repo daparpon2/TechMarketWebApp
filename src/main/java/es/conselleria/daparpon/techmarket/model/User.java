@@ -7,7 +7,7 @@ package es.conselleria.daparpon.techmarket.model;
 
 /**
  *
- * @author Yo mismo
+ * @author Daniel Pardo Pont
  */
 public class User {
     private String email;

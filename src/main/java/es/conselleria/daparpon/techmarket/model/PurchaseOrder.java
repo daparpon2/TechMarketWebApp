@@ -4,6 +4,8 @@ import java.util.Date;
 
 /**
  * Created on 17/06/2018.
+ * 
+ * Modified on 14/05/2021 by Daniel Pardo Pont
  *
  * @author Cesardl
  */
@@ -11,10 +13,11 @@ public class PurchaseOrder {
 
     private Integer orderNum;
     private Customer customer;
-    private Product product;
-    private Integer quantity;
+    private Double shippingCost;
     private Date salesDate;
     private Date shippingDate;
+    private OrderStatus status;
+    private FreightCompany freightCompany;
 
     public Integer getOrderNum() {
         return orderNum;
@@ -32,20 +35,12 @@ public class PurchaseOrder {
         this.customer = customer;
     }
 
-    public Product getProduct() {
-        return product;
+    public Double getShippingCost() {
+        return shippingCost;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setShippingCost(Double shippingCost) {
+        this.shippingCost = shippingCost;
     }
 
     public Date getSalesDate() {
@@ -62,5 +57,21 @@ public class PurchaseOrder {
 
     public void setShippingDate(Date shippingDate) {
         this.shippingDate = shippingDate;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
+    public FreightCompany getFreightCompany() {
+        return freightCompany;
+    }
+
+    public void setFreightCompany(FreightCompany freightCompany) {
+        this.freightCompany = freightCompany;
     }
 }
