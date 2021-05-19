@@ -4,7 +4,7 @@
 
     <groupId>es.conselleria.daparpon</groupId>
     <artifactId>TechMarketWebApp</artifactId>
-    <version>0.0.1</version>
+    <version>1.0</version>
     <packaging>war</packaging>
 
     <name>TechMarketWebApp</name>

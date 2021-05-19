@@ -1,9 +1,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix ="fmt"%>
 <%@include file="shards/opening.html" %>
 <%@include file="shards/navbar-header.html" %>
 <li class="nav-item"><a class="nav-link" href="site">Inicio</a></li>
-<li class="nav-item"><a class="nav-link" href="orders">Productos</a></li>
+<li class="nav-item"><a class="nav-link" href="products">Productos</a></li>
 <li class="nav-item"><a class="nav-link active" href="#">Pedidos</a></li>
 </ul>
 <%@include file="shards/social-media.html" %>
@@ -45,8 +46,8 @@
                                             <td>${order.customer.name}</td>
                                             <td>${order.status.description}</td>
                                             <td>${order.shippingCost} €</td>
-                                            <td>${order.salesDate}</td>
-                                            <td>${order.shippingDate}</td>
+                                            <td><fmt:formatDate type="date" pattern="dd/MM/yyyy" value="${order.salesDate}"/></td>
+                                            <td><fmt:formatDate type="date" pattern="dd/MM/yyyy" value="${order.shippingDate}"/></td>
                                             <td>${order.freightCompany.name}</td>
                                             <td>
                                                 <span>
@@ -93,7 +94,7 @@
                                     <span>&times;</span>
                                 </button>
                             </div>
-                            <form>
+                            <form id="order-modal-form">
                                 <div class="modal-body">
                                     <input type="text" id="order-num" hidden="hidden"/>
                                     <div class="form-group">
@@ -123,7 +124,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="shipping-date" class="col-form-label">Fecha de envío<span class="obligatorio">*</span></label>
+                                        <label for="shipping-date" class="col-form-label">Fecha de envío</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <%@include file="shards/bootstrap-icons/calendar-icon.html" %>
@@ -139,6 +140,37 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-primary" id="order-modal-button" disabled="disabled"></button>
+                                    <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                                
+                <div class="modal fade" id="line-modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-primary font-weight-bold" id="line-modal-title"></h5>
+                                <button type="button" class="close" data-dismiss="modal">
+                                    <span>&times;</span>
+                                </button>
+                            </div>
+                            <form id="line-modal-form">
+                                <div class="modal-body">
+                                    <span id="line-order-num" hidden="hidden"></span>
+                                    <div class="form-group">
+                                        <label for="product" class="col-form-label">Producto<span class="obligatorio">*</span></label>
+                                        <select class="form-control" id="product" name="product"></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="quantity" class="col-form-label">Cantidad<span class="obligatorio">*</span></label>
+                                        <input type="number" class="form-control" id="quantity" name="quantity" min="0" step="1"/>
+                                    </div>
+                                    <%@include file="shards/form-footer.html" %>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary" id="line-modal-button" disabled="disabled"></button>
                                     <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
                                 </div>
                             </form>

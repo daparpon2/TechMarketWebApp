@@ -207,6 +207,7 @@ function initializeEditionModal(modal, dataRow) {
     $.ajax({
         url: "product-service",
         type: "get",
+        async: "false",
         data: {
             "id": dataRow.find("td:nth-child(2)").text()
         },

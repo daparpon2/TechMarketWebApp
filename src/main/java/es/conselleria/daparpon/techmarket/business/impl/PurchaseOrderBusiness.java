@@ -71,15 +71,7 @@ public class PurchaseOrderBusiness extends TemplateBusiness<PurchaseOrder, Integ
 
     @Override
     public Integer save(PurchaseOrder purchaseOrder) {
-        Date date = new Date();
-        purchaseOrder.setSalesDate(date);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_MONTH, 15);
-        purchaseOrder.setShippingDate(calendar.getTime());
-
-        LOG.info("Adding purchase order to customer {}", purchaseOrder.getCustomer().getName());
+        LOG.info("Adding purchase order to customer {}", purchaseOrder.getCustomer().getCustomerId());
         return dao.save(purchaseOrder);
     }
 

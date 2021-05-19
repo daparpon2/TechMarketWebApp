@@ -11,6 +11,7 @@ import es.conselleria.daparpon.techmarket.business.impl.ProductBusiness;
 import es.conselleria.daparpon.techmarket.model.Manufacturer;
 import es.conselleria.daparpon.techmarket.model.Product;
 import es.conselleria.daparpon.techmarket.model.ProductCode;
+import es.conselleria.daparpon.techmarket.utils.UtilityFunctions;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -59,7 +60,7 @@ public class ProductService extends HttpServlet {
                 default:
             }
         } else {
-            //DO NOTHING
+            out.print(gson.toJson(ProductBusiness.getInstance().all()));
         }
     }
 
@@ -103,22 +104,12 @@ public class ProductService extends HttpServlet {
             throws ServletException, IOException {
         Scanner scanner = new Scanner(request.getInputStream(), "UTF-8");
         String body = scanner.hasNext() ? scanner.useDelimiter("\\A").next() : "";
-        Map<String, String> parameterMap = processInputParameters(body);
+        Map<String, String> parameterMap = UtilityFunctions.processInputParameters(body);
 
         Product product = parseParameterMap(parameterMap);
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         out.print(ProductBusiness.getInstance().update(product));
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
     }
 
     private Product parseJsonRequest(HttpServletRequest request) {
@@ -143,16 +134,6 @@ public class ProductService extends HttpServlet {
         }
 
         return product;
-    }
-
-    private Map<String, String> processInputParameters(String body) {
-        Map<String, String> result = new HashMap();
-        String[] params = body.split("&");
-        for (String param : params) {
-            String[] keyValuePair = param.split("=");
-            result.put(keyValuePair[0], keyValuePair[1]);
-        }
-        return result;
     }
 
     private Product parseParameterMap(Map<String, String> parameterMap) {

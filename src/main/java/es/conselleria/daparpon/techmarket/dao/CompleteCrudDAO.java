@@ -8,8 +8,16 @@ import java.util.Collection;
  * @param <T> entity to define
  * @author Cesardl
  */
-public interface CompleteCrudDAO<T, E> extends SimpleCrudDAO<T, E> {
+public interface CompleteCrudDAO<T, E> extends MasterCrudDAO<T> {
 
+    /**
+     * Obtain specific element.
+     *
+     * @param identifier element identifier
+     * @return an element with code
+     */
+    T findById(E identifier);
+    
     /**
      * Save an element.
      *

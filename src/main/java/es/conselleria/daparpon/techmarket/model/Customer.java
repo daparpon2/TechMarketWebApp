@@ -58,6 +58,10 @@ public class Customer {
     @NotNull
     @Min(value = 1000)
     private Long creditLimit;
+    
+    @Valid
+    @NotNull
+    private User user;
 
     public Integer getCustomerId() {
         return customerId;
@@ -153,6 +157,14 @@ public class Customer {
 
     public void setCreditLimit(Long creditLimit) {
         this.creditLimit = creditLimit;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

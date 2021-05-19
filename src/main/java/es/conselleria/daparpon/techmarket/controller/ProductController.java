@@ -35,7 +35,7 @@ public class ProductController extends HttpServlet {
         request.setAttribute("products", ProductBusiness.getInstance().all());
 
         RequestDispatcher rd;
-        if (request.getSession().getAttribute("username") != null) {
+        if (request.getSession().getAttribute("usertype") != null) {
             rd = request.getRequestDispatcher("/admin-products.jsp");
         } else {
             rd = request.getRequestDispatcher("/guest-products.jsp");

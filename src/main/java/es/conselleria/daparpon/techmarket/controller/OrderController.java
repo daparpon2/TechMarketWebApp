@@ -33,7 +33,7 @@ public class OrderController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         RequestDispatcher rd;
-        if (request.getSession().getAttribute("username") != null) {
+        if (request.getSession().getAttribute("usertype") != null) {
             request.setAttribute("orders", PurchaseOrderBusiness.getInstance().all());
             rd = request.getRequestDispatcher("/admin-orders.jsp");
         } else {

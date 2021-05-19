@@ -13,6 +13,10 @@ input:invalid {
     border-color: red;
 }
 
+td button {
+    margin-right: 1vw;
+}
+
 .obligatorio {
     font-size: 120%;
     color: red;

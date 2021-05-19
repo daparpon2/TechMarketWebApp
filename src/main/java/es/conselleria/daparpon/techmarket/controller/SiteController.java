@@ -27,7 +27,7 @@ public class SiteController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         RequestDispatcher rd;
-        if (request.getSession().getAttribute("username") != null) {
+        if (request.getSession().getAttribute("usertype") != null) {
             rd = request.getRequestDispatcher("/admin.jsp");
         } else {
             rd = request.getRequestDispatcher("/index.jsp");

@@ -27,7 +27,7 @@ public class CustomerDAO implements CompleteCrudDAO<Customer, Integer> {
 
     @Override
     public Collection<Customer> getAll() {
-        String sql = "SELECT CUSTOMER_ID, NAME, CITY, PHONE, EMAIL FROM CUSTOMER ORDER BY NAME";
+        String sql = "SELECT CUSTOMER_ID, NAME, CITY, PHONE, USER_EMAIL FROM CUSTOMER ORDER BY NAME";
 
         LOG.debug(DBConnection.SQL_LOG_TEMPLATE, sql);
 
@@ -44,7 +44,7 @@ public class CustomerDAO implements CompleteCrudDAO<Customer, Integer> {
                     c.setName(rs.getString("NAME"));
                     c.setCity(rs.getString("CITY"));
                     c.setPhone(rs.getString("PHONE"));
-                    c.setEmail(rs.getString("EMAIL"));
+                    c.setEmail(rs.getString("USER_EMAIL"));
 
                     customers.add(c);
                 }

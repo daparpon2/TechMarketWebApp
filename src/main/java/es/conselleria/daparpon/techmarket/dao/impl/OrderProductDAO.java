@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -28,8 +29,27 @@ public class OrderProductDAO implements CompleteCrudDAO<OrderProduct, Integer[]>
     private static final Logger LOG = LoggerFactory.getLogger(ProductDAO.class);
 
     @Override
-    public Integer[] save(OrderProduct t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Integer[] save(OrderProduct line) {
+        String sql = "INSERT INTO ORDER_PRODUCT(ORDER_NUM, PRODUCT_ID, QUANTITY) "
+                + "VALUES(?, ?, ?)";
+
+        LOG.debug(DBConnection.SQL_LOG_TEMPLATE, sql);
+
+        try (Connection conn = new DBConnection().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, line.getOrder().getOrderNum());
+            ps.setInt(2, line.getProduct().getProductId());
+            ps.setInt(3, line.getQuantity());
+
+            int result = ps.executeUpdate();
+            LOG.debug("Number of affected rows {}", result);
+            
+            return new Integer[]{result};
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+            return null;
+        }
     }
 
     @Override
@@ -53,7 +73,7 @@ public class OrderProductDAO implements CompleteCrudDAO<OrderProduct, Integer[]>
     }
 
     public Collection<OrderProduct> findByOrderNum(Integer orderNum) {
-        String sql = "SELECT P.DESCRIPTION, OP.QUANTITY FROM ORDER_PRODUCT "
+        String sql = "SELECT OP.*, P.DESCRIPTION FROM ORDER_PRODUCT OP "
                 + "INNER JOIN PRODUCT P ON OP.PRODUCT_ID = P.PRODUCT_ID "
                 + "WHERE ORDER_NUM = ?";
 
@@ -71,6 +91,7 @@ public class OrderProductDAO implements CompleteCrudDAO<OrderProduct, Integer[]>
                     op.setQuantity(rs.getInt("QUANTITY"));
                     
                     Product p = new Product();
+                    p.setProductId(rs.getInt("PRODUCT_ID"));
                     p.setDescription(rs.getString("DESCRIPTION"));
                     
                     op.setProduct(p);
