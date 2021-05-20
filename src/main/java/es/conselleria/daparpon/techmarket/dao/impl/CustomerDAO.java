@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.conselleria.daparpon.techmarket.dao.impl;
 
 import es.conselleria.daparpon.techmarket.dao.CompleteCrudDAO;
@@ -12,13 +7,14 @@ import es.conselleria.daparpon.techmarket.model.MicroMarket;
 import es.conselleria.daparpon.techmarket.utils.DBConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
 /**
+ * Modified on 18/05/2021 by Daniel Pardo Pont
+ * 
  * @author Cesardl
  */
 public class CustomerDAO implements CompleteCrudDAO<Customer, Integer> {

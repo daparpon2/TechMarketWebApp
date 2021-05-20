@@ -11,14 +11,14 @@ import es.conselleria.daparpon.techmarket.business.impl.PurchaseOrderBusiness;
 import es.conselleria.daparpon.techmarket.model.Customer;
 import es.conselleria.daparpon.techmarket.model.FreightCompany;
 import es.conselleria.daparpon.techmarket.model.OrderStatus;
-import es.conselleria.daparpon.techmarket.model.Product;
 import es.conselleria.daparpon.techmarket.model.PurchaseOrder;
+import es.conselleria.daparpon.techmarket.utils.UtilityFunctions;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Map;
+import java.util.Scanner;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -94,13 +94,26 @@ public class OrderService extends HttpServlet {
     }
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp); //To change body of generated methods, choose Tools | Templates.
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        out.print(PurchaseOrderBusiness.getInstance().delete(Integer.parseInt(request.getParameter("num"))));
     }
 
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp); //To change body of generated methods, choose Tools | Templates.
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Scanner scanner = new Scanner(request.getInputStream(), "UTF-8");
+        String body = scanner.hasNext() ? scanner.useDelimiter("\\A").next() : "";
+        Map<String, String> parameterMap = UtilityFunctions.processInputParameters(body);
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+
+        try {
+            PurchaseOrder order = parseParameterMap(parameterMap);
+            out.print(PurchaseOrderBusiness.getInstance().update(order));
+        } catch (ParseException ex) {
+            out.print(ex.getMessage());
+        }
     }
 
     private PurchaseOrder parseJsonRequest(HttpServletRequest request) throws ParseException {
@@ -124,7 +137,7 @@ public class OrderService extends HttpServlet {
         order.setFreightCompany(company);
 
         if (request.getParameter("num") != null && !request.getParameter("num").isEmpty()) {
-            order.setOrderNum(Integer.parseInt(request.getParameter("id")));
+            order.setOrderNum(Integer.parseInt(request.getParameter("num")));
         }
 
         if (request.getParameter("shippingDate") != null && !request.getParameter("shippingDate").isEmpty()) {
@@ -133,68 +146,35 @@ public class OrderService extends HttpServlet {
 
         return order;
     }
-    
-    private PurchaseOrder parseParameterMap(Map<String, String> parameterMap) {
-        return null;
-    }
 
-    /*
-    private Map<String, String> processInputParameters(String body) {
-        Map<String, String> result = new HashMap();
-        String[] params = body.split("&");
-        for (String param : params) {
-            String[] keyValuePair = param.split("=");
-            result.put(keyValuePair[0], keyValuePair[1]);
-        }
-        return result;
-    }
+    private PurchaseOrder parseParameterMap(Map<String, String> parameterMap) throws ParseException {
+        PurchaseOrder order = new PurchaseOrder();
+        order.setShippingCost(Double.parseDouble(parameterMap.get("shippingCost")));
+        order.setSalesDate(new SimpleDateFormat("yyyy-MM-dd").parse(parameterMap.get("salesDate")));
 
-    private Product parseParameterMap(Map<String, String> parameterMap) {
-        Product product = new Product();
-        product.setImage(parameterMap.get("image"));
-        product.setDescription(parameterMap.get("description").replace("+", " "));
-        product.setPurchaseCost(Double.parseDouble(parameterMap.get("purchaseCost")));
-        product.setQuantityOnHand(Integer.parseInt(parameterMap.get("quantityOnHand")));
-        product.setAvailable(Boolean.parseBoolean(parameterMap.get("available")));
-        product.setMarkup(Double.parseDouble(parameterMap.get("markup")));
+        Customer customer = new Customer();
+        customer.setCustomerId(Integer.parseInt(parameterMap.get("customerId")));
+        customer.setName(parameterMap.get("customerName"));
+        order.setCustomer(customer);
 
-        Manufacturer manufacturer = new Manufacturer();
-        manufacturer.setManufacturerId(Integer.parseInt(parameterMap.get("manufacturerId")));
-        product.setManufacturer(manufacturer);
+        OrderStatus status = new OrderStatus();
+        status.setStatusCode(Integer.parseInt(parameterMap.get("statusCode")));
+        status.setDescription(parameterMap.get("statusDescription"));
+        order.setStatus(status);
 
-        ProductCode productCode = new ProductCode();
-        productCode.setProdCode(parameterMap.get("prodCode"));
-        product.setProductCode(productCode);
+        FreightCompany company = new FreightCompany();
+        company.setCompanyId(Integer.parseInt(parameterMap.get("freightCompanyId")));
+        company.setName(parameterMap.get("freightCompanyName"));
+        order.setFreightCompany(company);
 
-        if (parameterMap.get("id") != null && !parameterMap.get("id").isEmpty()) {
-            product.setProductId(Integer.parseInt(parameterMap.get("id")));
+        if (parameterMap.get("num") != null && !parameterMap.get("num").isEmpty()) {
+            order.setOrderNum(Integer.parseInt(parameterMap.get("num")));
         }
 
-        return product;
-    }
-
-    private Product parseParameterMap(Map<String, String> parameterMap) {
-        Product product = new Product();
-        product.setImage(parameterMap.get("image"));
-        product.setDescription(parameterMap.get("description").replace("+", " "));
-        product.setPurchaseCost(Double.parseDouble(parameterMap.get("purchaseCost")));
-        product.setQuantityOnHand(Integer.parseInt(parameterMap.get("quantityOnHand")));
-        product.setAvailable(Boolean.parseBoolean(parameterMap.get("available")));
-        product.setMarkup(Double.parseDouble(parameterMap.get("markup")));
-
-        Manufacturer manufacturer = new Manufacturer();
-        manufacturer.setManufacturerId(Integer.parseInt(parameterMap.get("manufacturerId")));
-        product.setManufacturer(manufacturer);
-
-        ProductCode productCode = new ProductCode();
-        productCode.setProdCode(parameterMap.get("prodCode"));
-        product.setProductCode(productCode);
-
-        if (parameterMap.get("id") != null && !parameterMap.get("id").isEmpty()) {
-            product.setProductId(Integer.parseInt(parameterMap.get("id")));
+        if (parameterMap.get("shippingDate") != null && !parameterMap.get("shippingDate").isEmpty()) {
+            order.setShippingDate(new SimpleDateFormat("yyyy-MM-dd").parse(parameterMap.get("shippingDate")));
         }
 
-        return product;
+        return order;
     }
-     */
 }

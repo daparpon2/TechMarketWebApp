@@ -1,15 +1,16 @@
 package es.conselleria.daparpon.techmarket.business;
 
 import es.conselleria.daparpon.techmarket.dao.CompleteCrudDAO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Collection;
 
 /**
  * Created on 07/07/2018.
+ * 
+ * Modified on 29/04/2021 by Daniel Pardo Pont.
+ * 
  *
  * @param <T>
+ * @param <E>
  * @author Cesardl
  */
 public abstract class TemplateBusiness<T, E> {

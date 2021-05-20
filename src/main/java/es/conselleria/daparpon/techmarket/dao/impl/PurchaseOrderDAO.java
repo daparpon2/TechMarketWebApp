@@ -4,12 +4,10 @@ import es.conselleria.daparpon.techmarket.dao.CompleteCrudDAO;
 import es.conselleria.daparpon.techmarket.model.Customer;
 import es.conselleria.daparpon.techmarket.model.FreightCompany;
 import es.conselleria.daparpon.techmarket.model.OrderStatus;
-import es.conselleria.daparpon.techmarket.model.Product;
 import es.conselleria.daparpon.techmarket.model.PurchaseOrder;
 import es.conselleria.daparpon.techmarket.utils.DBConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -77,7 +75,7 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder, Integer>
 
     @Override
     public PurchaseOrder findById(final Integer identifier) {
-        String sql = "SELECT PO.* FROM PURCHASE_ORDER PO WHERE ORDER_NUM = ?";
+        String sql = "SELECT * FROM PURCHASE_ORDER WHERE ORDER_NUM = ?";
 
         LOG.debug(DBConnection.SQL_LOG_TEMPLATE, sql);
 
@@ -159,8 +157,35 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder, Integer>
     }
 
     @Override
-    public boolean update(PurchaseOrder t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean update(PurchaseOrder order) {
+        String sql = "UPDATE PURCHASE_ORDER SET CUSTOMER_ID = ?, SHIPPING_COST = ?, SALES_DATE = ?, SHIPPING_DATE = ?, FREIGHT_COMPANY = ?, STATUS = ? "
+                + "WHERE ORDER_NUM = ?";
+
+        LOG.debug(DBConnection.SQL_LOG_TEMPLATE, sql);
+
+        try (Connection connection = new DBConnection().getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, order.getCustomer().getCustomerId());
+            ps.setDouble(2, order.getShippingCost());
+            ps.setDate(3, new java.sql.Date(order.getSalesDate().getTime()));
+            if (order.getShippingDate() == null) {
+                ps.setDate(4, null);
+            } else {
+                ps.setDate(4, new java.sql.Date(order.getShippingDate().getTime()));
+            }
+            ps.setInt(5, order.getFreightCompany().getCompanyId());
+            ps.setInt(6, order.getStatus().getStatusCode());
+            ps.setInt(7, order.getOrderNum());
+
+            int result = ps.executeUpdate();
+
+            LOG.debug("Number of affected rows {}", result);
+            return true;
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+            return false;
+        }
     }
 
     @Override
@@ -176,8 +201,14 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder, Integer>
 
             int result = ps.executeUpdate();
 
-            LOG.info("A purchase order has been deleted: {}", result);
-            return true;
+            if (result > 0) {
+                LOG.info("A purchase order has been deleted: {}", result);
+                return true;
+            } else {
+                LOG.info("Purchase order could not be deleted: {}", result);
+                return false;
+            }
+
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
             return false;

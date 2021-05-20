@@ -13,10 +13,7 @@ import es.conselleria.daparpon.techmarket.model.OrderStatus;
 import es.conselleria.daparpon.techmarket.model.PurchaseOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 
 /**
  * Created on 17/06/2018.

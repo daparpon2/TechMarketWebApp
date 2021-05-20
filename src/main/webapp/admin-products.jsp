@@ -153,5 +153,5 @@
 
     <%@include file="shards/footer.jsp" %>
     <%@include file="shards/libscripts.html" %>
-    <script src="scripts/admin-products.js"></script>
+    <%@include file="scripts/admin-products-scripts.html" %>
     <%@include file="shards/closing.html" %>

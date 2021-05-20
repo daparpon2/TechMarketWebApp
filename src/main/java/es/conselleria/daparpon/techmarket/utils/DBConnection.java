@@ -15,7 +15,6 @@ public class DBConnection {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(DBParams.DB_URL + "/" + DBParams.DB_NAME, DBParams.DB_USER, DBParams.DB_PASSWORD);
-            //conn.setSchema(DBParams.DB_NAME);
 
             if (conn != null) {
                 conn.isValid(1);

@@ -14,7 +14,6 @@ import es.conselleria.daparpon.techmarket.model.ProductCode;
 import es.conselleria.daparpon.techmarket.utils.UtilityFunctions;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import javax.servlet.ServletException;

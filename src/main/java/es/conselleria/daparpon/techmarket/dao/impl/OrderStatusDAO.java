@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author Yo mismo
+ * @author Daniel Pardo Pont
  */
 public class OrderStatusDAO implements MasterCrudDAO<OrderStatus> {
 

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.conselleria.daparpon.techmarket.service;
 
 import com.google.gson.Gson;
@@ -12,9 +7,11 @@ import es.conselleria.daparpon.techmarket.business.impl.PurchaseOrderBusiness;
 import es.conselleria.daparpon.techmarket.model.OrderProduct;
 import es.conselleria.daparpon.techmarket.model.Product;
 import es.conselleria.daparpon.techmarket.model.PurchaseOrder;
+import es.conselleria.daparpon.techmarket.utils.UtilityFunctions;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
+import java.util.Scanner;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Yo mismo
+ * @author Daniel Pardo Pont
  */
 @WebServlet(name = "OrderLineService", urlPatterns = {"/line-service"})
 public class OrderLineService extends HttpServlet {
@@ -48,7 +45,7 @@ public class OrderLineService extends HttpServlet {
         if (request.getParameter("productId") == null) {
             out.print(gson.toJson(PurchaseOrderBusiness.getInstance().findOrderProducts(Integer.parseInt(request.getParameter("num")))));
         } else {
-            //DO NOTHING
+            out.print(gson.toJson(OrderProductBusiness.getInstance().findById(new Integer[]{Integer.parseInt(request.getParameter("num")), Integer.parseInt(request.getParameter("productId"))})));
         }
     }
 
@@ -71,13 +68,22 @@ public class OrderLineService extends HttpServlet {
     }
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp); //To change body of generated methods, choose Tools | Templates.
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        out.print(OrderProductBusiness.getInstance().delete(new Integer[]{Integer.parseInt(request.getParameter("num")), Integer.parseInt(request.getParameter("productId"))}));
     }
 
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp); //To change body of generated methods, choose Tools | Templates.
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Scanner scanner = new Scanner(request.getInputStream(), "UTF-8");
+        String body = scanner.hasNext() ? scanner.useDelimiter("\\A").next() : "";
+        Map<String, String> parameterMap = UtilityFunctions.processInputParameters(body);
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+
+        OrderProduct line = parseParameterMap(parameterMap);
+        out.print(OrderProductBusiness.getInstance().update(line));
     }
 
     private OrderProduct parseJsonRequest(HttpServletRequest request) {
@@ -99,9 +105,25 @@ public class OrderLineService extends HttpServlet {
 
         return line;
     }
-    
+
     private OrderProduct parseParameterMap(Map<String, String> parameterMap) {
-        return null;
+        OrderProduct line = new OrderProduct();
+        line.setQuantity(Integer.parseInt(parameterMap.get("quantity")));
+
+        if (parameterMap.get("num") != null && !parameterMap.get("num").isEmpty()) {
+            PurchaseOrder order = new PurchaseOrder();
+            order.setOrderNum(Integer.parseInt(parameterMap.get("num")));
+            line.setOrder(order);
+        }
+
+        if (parameterMap.get("productId") != null && !parameterMap.get("productId").isEmpty()) {
+            Product product = new Product();
+            product.setProductId(Integer.parseInt(parameterMap.get("productId")));
+            product.setDescription(parameterMap.get("productDescription"));
+            line.setProduct(product);
+        }
+
+        return line;
     }
 
 }

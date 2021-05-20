@@ -8,7 +8,6 @@ import es.conselleria.daparpon.techmarket.model.ProductCode;
 import es.conselleria.daparpon.techmarket.utils.DBConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +15,8 @@ import java.util.Collections;
 
 /**
  * Created on 10/06/2018.
+ * 
+ * Modified on 14/05/2021 by Daniel Pardo Pont
  *
  * @author Cesardl
  */

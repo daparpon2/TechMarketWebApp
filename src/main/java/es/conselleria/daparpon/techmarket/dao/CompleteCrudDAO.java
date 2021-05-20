@@ -1,11 +1,12 @@
 package es.conselleria.daparpon.techmarket.dao;
 
-import java.util.Collection;
-
 /**
  * Created on 01/07/2018.
+ * 
+ * Modified on 29/04/2021 by Daniel Pardo Pont
  *
  * @param <T> entity to define
+ * @param <E> type of the identifier of T
  * @author Cesardl
  */
 public interface CompleteCrudDAO<T, E> extends MasterCrudDAO<T> {

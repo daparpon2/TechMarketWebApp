@@ -1,8 +1,5 @@
 package es.conselleria.daparpon.techmarket.model;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
 /**
  * Created on 14/06/2018.
  *
@@ -12,9 +9,6 @@ public class ProductCode {
 
     private String prodCode;
     private String description;
-    
-    @Valid
-    @NotNull
     private DiscountCode discountCode;
 
     public String getProdCode() {

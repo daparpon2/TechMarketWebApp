@@ -1,7 +1,5 @@
 package es.conselleria.daparpon.techmarket.model;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * Created on 07/07/2018.
  *
@@ -9,7 +7,6 @@ import javax.validation.constraints.NotNull;
  */
 public class DiscountCode {
 
-    @NotNull
     private Character discountCode;
     private Double rate;
 

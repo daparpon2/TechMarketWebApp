@@ -5,6 +5,8 @@
 package es.conselleria.daparpon.techmarket.model;
 
 /**
+ * Modified on 11/05/2021 by Daniel Pardo Pont
+ * 
  * @author cesar.diaz
  */
 public class Product {

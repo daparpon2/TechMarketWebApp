@@ -1,8 +1,3 @@
-/*
- *
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.conselleria.daparpon.techmarket.business.impl;
 
 import es.conselleria.daparpon.techmarket.business.TemplateBusiness;
@@ -14,7 +9,6 @@ import es.conselleria.daparpon.techmarket.model.Product;
 import es.conselleria.daparpon.techmarket.model.ProductCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.Collection;
 
 /**

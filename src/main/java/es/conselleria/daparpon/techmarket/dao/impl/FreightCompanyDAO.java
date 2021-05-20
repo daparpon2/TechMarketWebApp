@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.conselleria.daparpon.techmarket.dao.impl;
 
 import es.conselleria.daparpon.techmarket.dao.MasterCrudDAO;
@@ -20,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author Yo mismo
+ * @author Daniel Pardo Pont
  */
 public class FreightCompanyDAO implements MasterCrudDAO<FreightCompany> {
 

@@ -1,12 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.conselleria.daparpon.techmarket.model;
-
-import javax.validation.Valid;
-import javax.validation.constraints.*;
 
 /**
  * @author Cesardl
@@ -14,53 +6,17 @@ import javax.validation.constraints.*;
 public class Customer {
 
     private Integer customerId;
-
-    @Valid
-    @NotNull
     private DiscountCode discountCode;
-
-    @Valid
-    @NotNull
     private MicroMarket microMarket;
-
-    @NotEmpty
-    @Size(max = 30)
     private String name;
-
-    @NotEmpty
-    @Size(max = 30)
     private String addressLine1;
-
-    @Size(max = 30)
     private String addressLine2;
-
-    @NotEmpty
-    @Size(max = 25)
     private String city;
-
-    @NotNull
-    @Size(max = 2)
     private String state;
-
-    @Pattern(regexp = "\\d{3}-\\d{3}-\\d{4}")
-    @Size(max = 12)
     private String phone;
-
-    @Pattern(regexp = "\\d{3}-\\d{3}-\\d{4}")
-    @Size(max = 12)
     private String fax;
-
-    @NotNull
-    @Email
-    @Size(max = 40)
     private String email;
-
-    @NotNull
-    @Min(value = 1000)
     private Long creditLimit;
-    
-    @Valid
-    @NotNull
     private User user;
 
     public Integer getCustomerId() {
